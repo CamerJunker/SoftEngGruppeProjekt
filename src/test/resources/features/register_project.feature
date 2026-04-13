@@ -1,5 +1,3 @@
-# Register a project
-
 # Feature: Register a project
 # 	Description: Register project to the project list
 # 	Actors: Employee

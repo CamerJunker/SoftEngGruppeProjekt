@@ -1,5 +1,3 @@
-# Edit a project
-
 # Feature: Edit a project
 # 	Description: Edit a project from the project list
 # 	Actors: Project manager
