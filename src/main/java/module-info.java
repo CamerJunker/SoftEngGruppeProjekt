@@ -1,4 +1,4 @@
-module hellofx {
+module projectmanagement {
     requires transitive javafx.controls;
     requires javafx.fxml;
  
