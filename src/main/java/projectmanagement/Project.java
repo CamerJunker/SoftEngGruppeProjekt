@@ -9,9 +9,17 @@ import projectmanagement.Activity;
 public class Project {
     private String name;
     private String serialNumber;
-    private ArrayList<User> registeredUsers;
+    private ArrayList<Member> registeredMembers;
     private User projectLeader;
     private ArrayList<Activity> activityList;
+
+
+    public Project(String name) {
+        this.name = name;
+
+        // TODO
+        this.serialNumber
+    }
 
     public String getName() {
         return this.name;
@@ -19,8 +27,8 @@ public class Project {
     public String getSerialNumber() {
         return this.serialNumber;
     }
-    public ArrayList<User> getRegisteredUsers() {
-        return this.registeredUsers;
+    public ArrayList<Member> getRegisteredMembers() {
+        return this.registeredMembers;
     }
     public User getProjectLeader() {
         return this.projectLeader;
@@ -34,14 +42,66 @@ public class Project {
         activityList.add(activity);
     }
 
+    // Add user to this project
     public void assignUser(User user) {
-        registeredUsers.add(user);
+        Member member = new Member(user);
+        registeredMembers.add(member);
     }
 
+    // Assign the leader user
     public void setProjectLeader(User user) {
         projectLeader = user;
     }
 
-    
+    // Register time done on an actity in hours
+    public void registerTime(Activity activity, float hours, User user) {
+        Member member = findMemberByUser(user);
+
+        member.recordActivityTime(activity, hours);
+    }
+
+    // Find member object from a user object
+    private Member findMemberByUser(User user) {
+        for (Member member : registeredMembers) {
+            if (member.getUser().equals(user)) {
+                return member;
+            }
+        }
+        return null; // Not found
+    }
 }
 
+// Holds user data like registered hours for each activity
+class Member {
+    private User user;
+    private ArrayList<ActivityTime> activityTimes;
+
+    Member(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public ArrayList<ActivityTime> getActivityTimes() {
+        return this.activityTimes;
+    }
+
+    public void recordActivityTime(Activity activity, float hours) {
+        ActivityTime activityTime = new ActivityTime(activity, hours);
+
+        this.activityTimes.add(activityTime);
+    }
+}
+
+// Stores hours for an activty
+class ActivityTime {
+    private Activity activity;
+    private float hours;
+
+    ActivityTime(Activity activity, float hours) {
+        this.activity = activity;
+        this.hours = hours;
+    }
+}
