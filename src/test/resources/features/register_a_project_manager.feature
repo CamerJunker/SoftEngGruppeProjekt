@@ -1,5 +1,3 @@
-# Register a project manager
-
 # Feature: Register a project manager
 # 	Description: Register a project manager to project
 # 	Actors: Employee
