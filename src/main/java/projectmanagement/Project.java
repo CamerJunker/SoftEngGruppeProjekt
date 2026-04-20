@@ -90,9 +90,23 @@ class Member {
     }
 
     public void recordActivityTime(Activity activity, float hours) {
-        ActivityTime activityTime = new ActivityTime(activity, hours);
+        
+        boolean foundActivity = false;
+        
+        // Search through all activities and update the time for the activity if it exists
+        for (ActivityTime activityTime : this.activityTimes) {
+            if (activityTime.getActivity() == activity) {
+                activityTime.updateTime(hours);
+                foundActivity = true;
+            }
+        }
+        
+        // If the acitity has not been recorded previously
+        if (!foundActivity) {
+            ActivityTime activityTime = new ActivityTime(activity, hours);
+            this.activityTimes.add(activityTime);
+        }
 
-        this.activityTimes.add(activityTime);
     }
 }
 
@@ -104,5 +118,16 @@ class ActivityTime {
     ActivityTime(Activity activity, float hours) {
         this.activity = activity;
         this.hours = hours;
+    }
+
+    public Activity getActivity() {
+        return this.activity;
+    }
+    public float getHours() {
+        return this.hours;
+    }
+    
+    public void updateTime(float hours) {
+        this.hours += hours;
     }
 }
