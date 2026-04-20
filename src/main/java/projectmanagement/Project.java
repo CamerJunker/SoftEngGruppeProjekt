@@ -68,11 +68,24 @@ public class Project {
         member.recordActivityTime(activity, hours);
     }
 
-    public Report generateReport(User user) {
-        if (projectLeader == user) {
-            
-            Report report = new Report()
+    public Report generateProjectReport(User user) {
+        if (projectLeader != user) {
+            return null;
         }
+
+        float totalBudgetedTime = 0;
+        for (Activity activity : activityList) {
+            totalBudgetedTime += activity.getBudgetedTime();
+        }
+
+        float totalHoursUsed = 0;
+        for (Member member : registeredMembers) {
+            for (ActivityTime activityTime : member.getActivityTimes()) {
+                totalHoursUsed += activityTime.getHours();
+            }
+        }
+
+        return new Report(totalHoursUsed, totalBudgetedTime);
     }
 
 
