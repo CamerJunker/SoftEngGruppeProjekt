@@ -61,6 +61,13 @@ public class Project {
         member.recordActivityTime(activity, hours);
     }
 
+    // Remove time done on an actity in hours
+    public void removeTime(Activity activity, float hours, User user) {
+        Member member = findMemberByUser(user);
+
+        member.removeActivityTime(activity, hours);
+    }
+
     // Find member object from a user object
     private Member findMemberByUser(User user) {
         for (Member member : registeredMembers) {
@@ -105,6 +112,25 @@ class Member {
         if (!foundActivity) {
             ActivityTime activityTime = new ActivityTime(activity, hours);
             this.activityTimes.add(activityTime);
+        }
+
+    }
+
+    public void removeActivityTime(Activity activity, float hours) {
+        
+        boolean foundActivity = false;
+        
+        // Search through all activities and update the time for the activity if it exists
+        for (ActivityTime activityTime : this.activityTimes) {
+            if (activityTime.getActivity() == activity) {
+                activityTime.updateTime(-hours);
+                foundActivity = true;
+            }
+        }
+        
+        // If the acitity has not been recorded previously
+        if (!foundActivity) {
+            System.out.println("No existing time logged on activity");
         }
 
     }
