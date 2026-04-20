@@ -2,9 +2,9 @@ package projectmanagement;
 
 import java.util.ArrayList;
 
-import projectmanagement.Date;
-import projectmanagement.Activity;
-
+//import projectmanagement.Date;
+//import projectmanagement.Activity;
+//import projectmanagement.SerialNumber;
 
 public class Project {
     private String name;
@@ -13,12 +13,13 @@ public class Project {
     private User projectLeader;
     private ArrayList<Activity> activityList;
 
+    private static SerialNumber serialNumberGenerator = new SerialNumber();
 
     public Project(String name) {
         this.name = name;
 
-        // TODO
-        this.serialNumber
+        // generate a serialnumber
+        this.serialNumber = serialNumberGenerator.getSerialNumber();
     }
 
     public String getName() {
