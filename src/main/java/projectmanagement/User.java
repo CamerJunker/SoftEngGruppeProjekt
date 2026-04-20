@@ -8,6 +8,10 @@ public class User {
     private String name;
     private ArrayList<Date> vacationDays;
 
+    public User(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return this.name;
     }
@@ -18,7 +22,7 @@ public class User {
 }
 
 
-class ProjectLeader extends User {
-
-}
+// class ProjectLeader extends User {
+// 
+// }
 
