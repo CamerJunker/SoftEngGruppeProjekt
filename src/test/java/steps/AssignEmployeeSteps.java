@@ -1,18 +1,27 @@
+import java.util.ArrayList;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.lu.a;
+import projectmanagement.Project;
+import projectmanagement.User;
 
 class AssignEmployeeSteps {
+
+    private ArrayList<Project> projectLists = new ArrayList<>();
+    private ArrayList<User> projectLeaders = new ArrayList<>();
+
         @Given("the project {string} exists")
-        public void theProjectExists(String string) {
-            // Write code here that turns the phrase above into concrete actions
-            throw new io.cucumber.java.PendingException();
+        public void theProjectExists(String projectName) {
+            Project newProject = new Project(projectName);
+            projectLists.add(newProject);
         }
 
         @Given("the project leader {string} exists")
-        public void theProjectLeaderExists(String string) {
-            // Write code here that turns the phrase above into concrete actions
-            throw new io.cucumber.java.PendingException();
+        public void theProjectLeaderExists(String leaderName) {
+            User newLeader = new User();
+            projectLeaders.add(newLeader);
         }
 
         @Given("the activity {string} exists")
