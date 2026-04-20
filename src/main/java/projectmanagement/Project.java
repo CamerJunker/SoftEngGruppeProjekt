@@ -136,6 +136,31 @@ class Member {
         }
 
     }
+
+    public void removeActivityTime(Activity activity, float hours) {
+
+        boolean foundActivity = false;
+
+        for (ActivityTime activityTime : this.activityTimes) {
+            if (activityTime.getActivity() == activity) {
+                foundActivity = true;
+
+                float currentHours = activityTime.getHours();
+
+                // Check if remove value is higher than the logged time before removing 
+                if (hours > currentHours) {
+                    System.out.println("Cannot remove more hours than registered");
+                    return;
+                }
+
+                activityTime.updateTime(-hours);
+            }
+        }
+
+        if (!foundActivity) {
+            System.out.println("No existing time logged on activity");
+        }
+    }
 }
 
 // Stores hours for an activty

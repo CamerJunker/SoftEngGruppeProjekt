@@ -1,4 +1,6 @@
 package projectmanagement;
+import java.util.ArrayList;
+import projectmanagement.Project;
 
 public class Activity {
     private String name;
@@ -8,6 +10,7 @@ public class Activity {
     private int startYear;
     private int endYear;
     private boolean status;
+    private ArrayList<Member> assignedUsers;
 
     public Activity(String name, int budgetedTime, int startWeek, int endWeek, int startYear, int endYear, boolean status) {
         this.name = name;
@@ -17,6 +20,8 @@ public class Activity {
         this.startYear = startYear;
         this.endYear = endYear;
         this.status = status;
+
+        assignedUsers = new ArrayList<Member>();
     }
 
     public String getName() {
@@ -39,5 +44,18 @@ public class Activity {
     }
     public boolean getStatus() {
         return this.status;
+    }
+
+    public ArrayList<Member> getAssignedUsers(){
+        return this.assignedUsers;
+    }
+
+    public void assignUser(Member newMember) throws Exception{
+        for (Member member : assignedUsers){
+            if(member.getUser().equals(newMember.getUser())){
+                throw new Exception("Employee already assigned");
+            }
+        }
+        assignedUsers.add(newMember);
     }
 }
