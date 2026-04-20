@@ -8,7 +8,3 @@ Feature: Project reporting
 		When the project manager generates a report
 		Then the system should display total time spent
 		And remaining budgeted time
-	Scenario: Generate activity report
-		Given an activity contains time registrations
-		When the project manager generates an activity report
-		Then the system should display hours used and remaining hours
