@@ -1,4 +1,4 @@
-package hellocucumber;
+package steps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
