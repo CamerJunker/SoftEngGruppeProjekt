@@ -20,7 +20,7 @@ class AssignEmployeeSteps {
 
         @Given("the project leader {string} exists")
         public void theProjectLeaderExists(String leaderName) {
-            User newLeader = new User();
+            User newLeader = new User(leaderName);
             projectLeaders.add(newLeader);
         }
 
