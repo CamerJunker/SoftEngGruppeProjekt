@@ -5,6 +5,7 @@ import java.util.ArrayList;
 //import projectmanagement.Date;
 //import projectmanagement.Activity;
 //import projectmanagement.SerialNumber;
+import projectmanagement.Report;
 
 public class Project {
     private String name;
@@ -38,9 +39,15 @@ public class Project {
         return this.activityList;
     }
 
-    public void createActivity(String name, int budgetedTime, int startWeek, int endWeek, int startYear, int endYear, boolean status) {
+    public boolean userHasActivities(User user) {
+        Member member = findMemberByUser(user);
+        return !member.getActivityTimes().isEmpty();
+    }
+
+    public Activity createActivity(String name, int budgetedTime, int startWeek, int endWeek, int startYear, int endYear, boolean status) {
         Activity activity = new Activity(name, budgetedTime, startWeek, endWeek, startYear, endYear, status);
         activityList.add(activity);
+        return activity;
     }
 
     // Add user to this project
@@ -61,12 +68,26 @@ public class Project {
         member.recordActivityTime(activity, hours);
     }
 
-    // Remove time done on an actity in hours
-    public void removeTime(Activity activity, float hours, User user) {
-        Member member = findMemberByUser(user);
+    public Report generateProjectReport(User user) {
+        if (projectLeader != user) {
+            return null;
+        }
 
-        member.removeActivityTime(activity, hours);
+        float totalBudgetedTime = 0;
+        for (Activity activity : activityList) {
+            totalBudgetedTime += activity.getBudgetedTime();
+        }
+
+        float totalHoursUsed = 0;
+        for (Member member : registeredMembers) {
+            for (ActivityTime activityTime : member.getActivityTimes()) {
+                totalHoursUsed += activityTime.getHours();
+            }
+        }
+
+        return new Report(totalHoursUsed, totalBudgetedTime);
     }
+
 
     // Find member object from a user object
     private Member findMemberByUser(User user) {
