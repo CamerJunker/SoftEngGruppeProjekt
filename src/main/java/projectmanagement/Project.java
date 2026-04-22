@@ -2,9 +2,6 @@ package projectmanagement;
 
 import java.util.ArrayList;
 
-//import projectmanagement.Date;
-//import projectmanagement.Activity;
-//import projectmanagement.SerialNumber;
 import projectmanagement.Report;
 
 public class Project {

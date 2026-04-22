@@ -3,13 +3,12 @@ package steps;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import projectmanagement.Activity;
 import projectmanagement.Project;
-import projectmanagement.User;
 import projectmanagement.Report;
+import projectmanagement.User;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProjectReportingSteps {
     private Project project;

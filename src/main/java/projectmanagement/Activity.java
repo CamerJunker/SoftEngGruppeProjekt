@@ -1,5 +1,6 @@
 package projectmanagement;
 import java.util.ArrayList;
+
 import projectmanagement.Project;
 
 public class Activity {
