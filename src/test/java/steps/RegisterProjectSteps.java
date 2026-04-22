@@ -11,17 +11,21 @@ import projectmanagement.OperationNotAllowed;
 public class RegisterProjectSteps {
     private Main app;
     private ErrorMessageHolder errorMessageHolder;
-    private String projectname;
+    private ProjectInfoHolder projectInfoHolder;
+    private EmployeeInfoHolder employeeInfoHolder;
 
-    public RegisterProjectSteps(Main app, ErrorMessageHolder errorMessageHolder){
+    public RegisterProjectSteps(Main app, ErrorMessageHolder errorMessageHolder, ProjectInfoHolder projectInfoHolder, EmployeeInfoHolder employeeInfoHolder){
         this.app = app;
         this.errorMessageHolder = errorMessageHolder;
+        this.projectInfoHolder = projectInfoHolder;
+        this.employeeInfoHolder = employeeInfoHolder;
     }
 
     @Given("the employee is logged in")
     public void theEmployeeIsLoggedIn() {
+        this.employeeInfoHolder.setName("HUBA");
         try {
-            this.app.loginUser("HUBA");
+            this.app.loginUser(this.employeeInfoHolder.getName());
             assertTrue(this.app.CheckUserLoggedIn());
         } catch (OperationNotAllowed exception) {
             this.errorMessageHolder.setErrorMessage(exception.getMessage());
@@ -32,7 +36,7 @@ public class RegisterProjectSteps {
     public void theEmployeeRegistersAProjectWithTheName(String string) {
         try {
             this.app.NewProject(string);
-        this.projectname = string;
+        this.projectInfoHolder.setProjectName(string);
         } catch (OperationNotAllowed exception) {
             this.errorMessageHolder.setErrorMessage(exception.getMessage());
         }
@@ -41,13 +45,14 @@ public class RegisterProjectSteps {
     @Then("the project is registered to the project list")
     public void theProjectIsRegisteredToTheProjectList() {
         // Check that the name of the project is in the list of projects
-        assertTrue(this.app.searchProject(this.projectname));
+        assertTrue(this.app.searchProject(this.projectInfoHolder.getProjectName()));
     }
 
     @Given("there exists a project with the name {string}")
     public void thereExistsAProjectWithTheName(String string) {
         try {
-            this.app.NewProject(string);
+            this.projectInfoHolder.setProjectName(string);
+            this.app.NewProject(this.projectInfoHolder.getProjectName());
         } catch (OperationNotAllowed exception) {
             this.errorMessageHolder.setErrorMessage(exception.getMessage());
         }
