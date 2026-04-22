@@ -30,7 +30,7 @@ public class Main {
         }
     }
 
-    // Check if user exist in preexisting list of users
+    // Check if user exists in preexisting list of users
     private Boolean searchUser(String UserInitials){
         for (User searchUser : this.ListOfUsers){
             String searchUserInitials = searchUser.getName();
@@ -55,7 +55,7 @@ public class Main {
     public void NewProject(String projectname) throws OperationNotAllowed{
         if (!this.searchProject(projectname)){
             Project newProject = new Project(projectname);
-        this.ListOfProjects.add(newProject);
+            this.ListOfProjects.add(newProject);
         } else {
             throw new OperationNotAllowed("Project name already exists");
         }
@@ -70,6 +70,64 @@ public class Main {
             }
         }
         return false;
+    }
+
+    private Project getProject(String projectname) {
+        for (Project project : this.ListOfProjects) {
+            String searchProjectName = project.getName();
+            if (searchProjectName.equals(projectname)) {
+                return project;
+            }
+        }
+        return null;
+    }
+
+    public Boolean checkProjectLeader(String projectname, String username) throws OperationNotAllowed {
+        Project project = this.getProject(projectname);
+        User user = this.getUser(username);
+
+        if (project != null) {
+            User projectLeader = project.getProjectLeader();
+            if (projectLeader.equals(user)){
+                return true;
+            }
+        } else {
+            throw new OperationNotAllowed("Project does not exist");
+        }
+        return false;
+    }
+
+    public void deleteProject(String projectname) throws OperationNotAllowed {
+        Project project = this.getProject(projectname);
+        if (project != null && this.checkProjectLeader(projectname, this.currentUser.getName())){
+            this.ListOfProjects.remove(project);
+        } else {
+            if (project == null){
+                throw new OperationNotAllowed("Project does not exist");
+            }
+
+            if (!this.checkProjectLeader(projectname, this.currentUser.getName())){
+                throw new OperationNotAllowed("Employee is not the project manager");
+            }
+        }
+    }
+
+    public void setProjectLeader(String projectname, String newProjectLeaderName) throws OperationNotAllowed{
+        Project project = this.getProject(projectname);
+        User chosenUser = this.getUser(newProjectLeaderName);
+
+        // If project and user exists, and if the current user is the project leader OR if there is currently no project leader, then set the chosen user as project leader
+        if(project != null && chosenUser != null && (this.checkProjectLeader(projectname, this.currentUser.getName()) || project.getProjectLeader() == null)) {
+            project.setProjectLeader(chosenUser);
+        } else {
+            if (project == null){
+                throw new OperationNotAllowed("Project does not exist");
+            }
+            
+            if (chosenUser == null){
+                throw new OperationNotAllowed("User does not exist");
+            }
+        }
     }
 }
 
