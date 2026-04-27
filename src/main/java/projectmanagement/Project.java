@@ -2,8 +2,6 @@ package projectmanagement;
 
 import java.util.ArrayList;
 
-import projectmanagement.Report;
-
 public class Project {
     private String name;
     private String serialNumber;
@@ -89,7 +87,7 @@ public class Project {
 
 
     // Find member object from a user object
-    private Member findMemberByUser(User user) {
+    public Member findMemberByUser(User user) {
         for (Member member : registeredMembers) {
             if (member.getUser().equals(user)) {
                 return member;
