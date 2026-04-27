@@ -60,4 +60,38 @@ public class EditProjectSteps {
     public void theProjectStillExistsInTheProjectList() {
         assertTrue(this.app.searchProject(this.projectInfoHolder.getProjectName()));
     }
+
+    @When("the employee edits the project name to {string}")
+    public void theEmployeeEditsTheProjectNameTo(String newName) {
+        try {
+            this.app.editProjectName(this.projectInfoHolder.getProjectName(), newName);
+        } catch (OperationNotAllowed e) {
+            this.errorMessageHolder.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Given("the project has a project manager")
+    public void theProjectHasAProjectManager() {
+        try {
+            // Make an existing employee the project manager, the initials are not the same as current user, so we use a string "ANNA"
+            this.app.setProjectLeader(this.projectInfoHolder.getProjectName(), "ANNA");
+            assertTrue(this.app.projectHasProjectLeader(this.projectInfoHolder.getProjectName()));
+        } catch (OperationNotAllowed e) {
+            this.errorMessageHolder.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the projects name is {string}")
+    public void theProjectsNameIs(String projectName) {
+        assertTrue(this.app.searchProject(projectName));
+    }
+
+    @Given("the project does not have a project manager")
+    public void theProjectDoesNotHaveAProjectManager() {
+        try {
+            assertFalse(this.app.projectHasProjectLeader(this.projectInfoHolder.getProjectName()));
+        } catch (OperationNotAllowed e) {
+            this.errorMessageHolder.setErrorMessage(e.getMessage());
+        }
+    }
 }

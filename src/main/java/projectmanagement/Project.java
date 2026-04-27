@@ -35,6 +35,15 @@ public class Project {
     public ArrayList<Activity> getActivityList() {
         return this.activityList;
     }
+    public boolean hasProjectLeader(){
+        if (this.projectLeader == null){
+            return false;
+        }
+        return true;
+    }
+    public void removeProjectLeader(){
+        this.projectLeader = null;
+    }
 
     public boolean userHasActivities(User user) {
         Member member = findMemberByUser(user);
@@ -56,6 +65,10 @@ public class Project {
     // Assign the leader user
     public void setProjectLeader(User user) {
         projectLeader = user;
+    }
+
+    public void editProjectName(String name){
+        this.name = name;
     }
 
     // Register time done on an actity in hours

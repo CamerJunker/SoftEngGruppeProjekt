@@ -10,7 +10,7 @@ public class Main {
 
     public Main(){
         // Users must be made before, as there should not be a function to add a user.
-        String[] ListOfInitials = {"HUBA"};
+        String[] ListOfInitials = {"HUBA", "ANNA"};
         for (String name : ListOfInitials){
             User newUser = new User(name);
             this.ListOfUsers.add(newUser);
@@ -118,6 +118,45 @@ public class Main {
         }
     }
 
+    public void editProjectName(String oldName, String newName) throws OperationNotAllowed {
+        // If project exists and the new name does not already exist
+        if (this.searchProject(oldName) && !this.searchProject(newName)){
+            Project project = this.getProject(oldName);
+
+            // If project has no project leader
+            if (!this.projectHasProjectLeader(newName)){
+                project.editProjectName(newName);
+
+            // If current user is project leader
+            } else if (this.checkProjectLeader(project.getName(), this.currentUser.getName())) {
+                project.editProjectName(newName);
+            } else {
+                throw new OperationNotAllowed("Employee is not the project manager");
+            }
+
+        } else {
+            if (!this.searchProject(oldName)){
+                throw new OperationNotAllowed("Project does not exist");
+            }
+
+            if (this.searchProject(newName)) {
+                throw new OperationNotAllowed("Duplicate project name");
+            }
+        }
+    }
+
+    public Boolean projectHasProjectLeader(String projectname) throws OperationNotAllowed {
+        Project project = this.getProject(projectname);
+        if (project == null){
+            throw new OperationNotAllowed("Project does not exist");
+        }
+
+        if (project.hasProjectLeader()){
+            return true;
+        }
+        return false;
+    }
+
     public void setProjectLeader(String projectname, String newProjectLeaderName) throws OperationNotAllowed{
         Project project = this.getProject(projectname);
         User chosenUser = this.getUser(newProjectLeaderName);
@@ -132,6 +171,26 @@ public class Main {
             
             if (chosenUser == null){
                 throw new OperationNotAllowed("User does not exist");
+            }
+        }
+    }
+
+    public void removeProjectLeader(String projectname) throws OperationNotAllowed {
+        // If project exists, there is a project leader and user is project leader
+        Project project = this.getProject(projectname);
+        if (project != null && this.projectHasProjectLeader(projectname) && this.checkProjectLeader(projectname, this.currentUser.getName())){
+            project.removeProjectLeader();
+        } else {
+            if (project == null) {
+                throw new OperationNotAllowed("Project does not exist");
+            }
+
+            if (!this.projectHasProjectLeader(projectname)){
+                throw new OperationNotAllowed("Cannot remove project leader when no project leader is assigned");
+            }
+
+            if (!this.checkProjectLeader(projectname, this.currentUser.getName())){
+                throw new OperationNotAllowed("Employee is not the project manager");
             }
         }
     }
