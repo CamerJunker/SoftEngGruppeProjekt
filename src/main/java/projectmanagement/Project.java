@@ -36,6 +36,11 @@ public class Project {
         return this.activityList;
     }
 
+    public float getRegisteredActivityTimeForUser(User user, Activity activity) {
+        Member member = findMemberByUser(user);
+        return member.getActivityTime(activity);
+    }
+
     public boolean userHasActivities(User user) {
         Member member = findMemberByUser(user);
         return !member.getActivityTimes().isEmpty();
@@ -121,6 +126,23 @@ class Member {
 
     public ArrayList<ActivityTime> getActivityTimes() {
         return this.activityTimes;
+    }
+
+    public float getActivityTime(Activity activity) {
+        
+        boolean foundActivity = false;
+        // Search through all activities and update the time for the activity if it exists
+        for (ActivityTime activityTime : this.activityTimes) {
+            if (activityTime.getActivity() == activity) {   
+                return activityTime.getHours();
+            }
+        }
+        
+        // If the acitity has not been recorded previously
+        if (!foundActivity) {
+            return 0.0f;
+        }
+        return 0.0f;
     }
 
     public void recordActivityTime(Activity activity, float hours) {
