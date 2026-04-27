@@ -27,7 +27,7 @@ public class EditProjectSteps {
         // Check if current user, currently logged in, is the projectleader
         try {
             this.app.setProjectLeader(this.projectInfoHolder.getProjectName(), this.employeeInfoHolder.getName());
-            assertTrue(this.app.checkProjectLeader(this.projectInfoHolder.getProjectName(), this.employeeInfoHolder.getName()));
+            assertTrue(this.app.checkProjectLeader(this.projectInfoHolder.getProjectName(), this.employeeInfoHolder.getName()), "Could not set current employee as project leader.");
         } catch (OperationNotAllowed e) {
             this.errorMessageHolder.setErrorMessage(e.getMessage());
         }
