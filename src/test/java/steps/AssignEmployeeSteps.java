@@ -1,68 +1,108 @@
-import java.util.ArrayList;
+package steps;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.lu.a;
+
+import projectmanagement.Activity;
 import projectmanagement.Project;
 import projectmanagement.User;
+import projectmanagement.Member;
 
-class AssignEmployeeSteps {
+public class AssignEmployeeSteps {
 
-    private ArrayList<Project> projectLists = new ArrayList<>();
-    private ArrayList<User> projectLeaders = new ArrayList<>();
+    private Project currentProject;
+    private Activity currentActivity;
+    private User employee;
+    private User projectLeader;
 
-        @Given("the project {string} exists")
-        public void theProjectExists(String projectName) {
-            Project newProject = new Project(projectName);
-            projectLists.add(newProject);
+    private ErrorMessageHolder errorMessageHolder;
+
+    public AssignEmployeeSteps(ErrorMessageHolder errorMessageHolder){
+        this.errorMessageHolder = errorMessageHolder;
+
+        this.currentProject = new Project("projectname");
+        
+        this.projectLeader = new User("projectleader");
+        this.currentProject.setProjectLeader(this.projectLeader);
+        
+        this.employee = new User("huba"); 
+        this.currentProject.assignUser(this.employee);
+        
+        this.currentActivity = this.currentProject.createActivity("activityname", 10, 1, 2, 2026, 2026, true);
+    }
+
+    @Given("the project {string} exists")
+    public void theProjectExists(String projectName) {
+        assertTrue(this.currentProject.getName().equals(projectName));
+    }
+
+    @Given("the project leader {string} exists")
+    public void theProjectLeaderExists(String leaderName) {
+        assertTrue(this.projectLeader.getName().equals(leaderName));
+    }
+
+    @Given("the activity {string} exists for this project")
+    public void theActivityExistsForThisProject(String activityName) { // 
+        this.currentActivity = this.currentProject.createActivity(activityName, 10, 1, 2, 2026, 2026, true);
+    }
+
+
+    @When("the project leader assigns the employee {string} to the activity {string}")
+    public void theProjectLeaderAssignsTheEmployeeToTheActivity(String name, String activityName) {
+        try {   
+            // Validate against the hardcoded data
+            assertTrue(this.employee.getName().equals(name));
+            assertTrue(this.currentActivity.getName().equals(activityName));
+
+            Member member = currentProject.findMemberByUser(this.employee);
+
+            if (member == null) {
+                throw new Exception("Member can not be found through the user");
+            }
+
+            currentActivity.assignUser(member);
+
+        } catch (Exception e) {
+            this.errorMessageHolder.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the employee {string} should be assigned to the activity {string}")
+    public void theEmployeeShouldBeAssignedToTheActivity(String employeeName, String activityName) {
+        boolean isAssigned = false;
+
+        for (Member member : currentActivity.getAssignedUsers()) {
+            if (member.getUser().getName().equals(employeeName)) {
+                isAssigned = true;
+                break;
+            }
         }
 
-        @Given("the project leader {string} exists")
-        public void theProjectLeaderExists(String leaderName) {
-            User newLeader = new User(leaderName);
-            projectLeaders.add(newLeader);
-        }
+        assertTrue(isAssigned);
+    }
 
-        @Given("the activity {string} exists")
-        public void theActivityExists(String string) {
-            // Write code here that turns the phrase above into concrete actions
-            throw new io.cucumber.java.PendingException();
-        }
+    @Given("the employee {string} is already assigned to the activity {string}")
+    public void theEmployeeIsAlreadyAssignedToTheActivity(String name, String activityName) throws Exception {
+        assertTrue(this.employee.getName().equalsIgnoreCase(name));
+        Member member = currentProject.findMemberByUser(this.employee);
+        currentActivity.assignUser(member);
+    }
 
-        @Given("the employee {string} exists")
-        public void theEmployeeExists(String string) {
-            // Write code here that turns the phrase above into concrete actions
-            throw new io.cucumber.java.PendingException();
-        }
 
-        @When("the project leader assigns the employee {string} to the activity {string}")
-        public void theProjectLeaderAssignsTheEmployeeToTheActivity(String string, String string2) {
-            // Write code here that turns the phrase above into concrete actions
-            throw new io.cucumber.java.PendingException();
-        }
+    @When("the project leader assigns the employee {string} to a non existing activity")
+    public void theProjectLeaderAssignsTheEmployeeToANonExistingActivity(String name) {
+        try {
+            assertTrue(this.employee.getName().equals(name));
+            Member member = currentProject.findMemberByUser(this.employee);
 
-        @Then("the employee should be assigned to the activity {string}")
-        public void theEmployeeShouldBeAssignedToTheActivity(String string) {
-            // Write code here that turns the phrase above into concrete actions
-            throw new io.cucumber.java.PendingException();
-        }
+            Activity nonExistingActivity = null;
+            nonExistingActivity.assignUser(member);
 
-        @Given("the employee {string} is already assigned to the activity {string}")
-        public void theEmployeeIsAlreadyAssignedToTheActivity(String string, String string2) {
-            // Write code here that turns the phrase above into concrete actions
-            throw new io.cucumber.java.PendingException();
+        } catch (Exception e) {
+            this.errorMessageHolder.setErrorMessage(e.getMessage());
         }
-
-        @Then("the system should show an error message")
-        public void theSystemShouldShowAnErrorMessage() {
-            // Write code here that turns the phrase above into concrete actions
-            throw new io.cucumber.java.PendingException();
-        }
-
-        @When("the project leader assigns the employee {string} to a non existing activity")
-        public void theProjectLeaderAssignsTheEmployeeToANonExistingActivity(String string) {
-            // Write code here that turns the phrase above into concrete actions
-            throw new io.cucumber.java.PendingException();
     }
 }

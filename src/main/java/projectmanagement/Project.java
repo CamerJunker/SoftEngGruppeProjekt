@@ -2,8 +2,6 @@ package projectmanagement;
 
 import java.util.ArrayList;
 
-import projectmanagement.Report;
-
 public class Project {
     private String name;
     private String serialNumber;
@@ -15,9 +13,11 @@ public class Project {
 
     public Project(String name) {
         this.name = name;
-
         // generate a serialnumber
         this.serialNumber = serialNumberGenerator.getSerialNumber();
+
+        this.registeredMembers = new ArrayList<>();
+        this.activityList = new ArrayList<>();
     }
 
     public String getName() {
@@ -43,6 +43,16 @@ public class Project {
     }
     public void removeProjectLeader(){
         this.projectLeader = null;
+    }
+
+    public float getRegisteredActivityTimeForUser(User user, Activity activity) throws Exception {
+        Member member = findMemberByUser(user);
+        try {
+            return member.getActivityTime(activity);
+        }
+        catch (Exception e) {
+            throw new Exception("No activity found");
+        }
     }
 
     public boolean userHasActivities(User user) {
@@ -78,6 +88,14 @@ public class Project {
         member.recordActivityTime(activity, hours);
     }
 
+    public void removeActivityTime(User user, Activity activity, float hours) throws Exception {
+        Member member = findMemberByUser(user);
+        if (member == null) {
+            throw new Exception("User not assigned to project");
+        }
+        member.removeActivityTime(activity, hours);
+    }
+
     public Report generateProjectReport(User user) {
         if (projectLeader != user) {
             return null;
@@ -100,7 +118,7 @@ public class Project {
 
 
     // Find member object from a user object
-    private Member findMemberByUser(User user) {
+    public Member findMemberByUser(User user) {
         for (Member member : registeredMembers) {
             if (member.getUser().equals(user)) {
                 return member;
@@ -110,68 +128,6 @@ public class Project {
     }
 }
 
-// Holds user data like registered hours for each activity
-class Member {
-    private User user;
-    private ArrayList<ActivityTime> activityTimes;
-
-    Member(User user) {
-        this.user = user;
-    }
-
-    public User getUser() {
-        return this.user;
-    }
-
-    public ArrayList<ActivityTime> getActivityTimes() {
-        return this.activityTimes;
-    }
-
-    public void recordActivityTime(Activity activity, float hours) {
-        
-        boolean foundActivity = false;
-        
-        // Search through all activities and update the time for the activity if it exists
-        for (ActivityTime activityTime : this.activityTimes) {
-            if (activityTime.getActivity() == activity) {
-                activityTime.updateTime(hours);
-                foundActivity = true;
-            }
-        }
-        
-        // If the acitity has not been recorded previously
-        if (!foundActivity) {
-            ActivityTime activityTime = new ActivityTime(activity, hours);
-            this.activityTimes.add(activityTime);
-        }
-
-    }
-
-    public void removeActivityTime(Activity activity, float hours) {
-
-        boolean foundActivity = false;
-
-        for (ActivityTime activityTime : this.activityTimes) {
-            if (activityTime.getActivity() == activity) {
-                foundActivity = true;
-
-                float currentHours = activityTime.getHours();
-
-                // Check if remove value is higher than the logged time before removing 
-                if (hours > currentHours) {
-                    System.out.println("Cannot remove more hours than registered");
-                    return;
-                }
-
-                activityTime.updateTime(-hours);
-            }
-        }
-
-        if (!foundActivity) {
-            System.out.println("No existing time logged on activity");
-        }
-    }
-}
 
 // Stores hours for an activty
 class ActivityTime {
