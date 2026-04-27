@@ -15,9 +15,11 @@ public class Project {
 
     public Project(String name) {
         this.name = name;
-
         // generate a serialnumber
         this.serialNumber = serialNumberGenerator.getSerialNumber();
+
+        this.registeredMembers = new ArrayList<>();
+        this.activityList = new ArrayList<>();
     }
 
     public String getName() {
@@ -104,6 +106,7 @@ class Member {
 
     Member(User user) {
         this.user = user;
+        this.activityTimes = new ArrayList<>();
     }
 
     public User getUser() {
@@ -120,7 +123,7 @@ class Member {
         
         // Search through all activities and update the time for the activity if it exists
         for (ActivityTime activityTime : this.activityTimes) {
-            if (activityTime.getActivity() == activity) {
+            if (activityTime.getActivity() == activity) {   
                 activityTime.updateTime(hours);
                 foundActivity = true;
             }
