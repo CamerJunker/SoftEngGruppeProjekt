@@ -23,13 +23,11 @@ public class AssignEmployeeSteps {
     public AssignEmployeeSteps(ErrorMessageHolder errorMessageHolder){
         this.errorMessageHolder = errorMessageHolder;
 
-        // Hardcoding the setup to match the rest of the team's pattern
         this.currentProject = new Project("projectname");
         
         this.projectLeader = new User("projectleader");
         this.currentProject.setProjectLeader(this.projectLeader);
         
-        // NOTE: Make sure the capitalization here matches whatever your feature file uses!
         this.employee = new User("huba"); 
         this.currentProject.assignUser(this.employee);
         
@@ -47,7 +45,7 @@ public class AssignEmployeeSteps {
     }
 
     @Given("the activity {string} exists for this project")
-    public void theActivityExistsForThisProject(String activityName) { // <-- Added the String parameter here
+    public void theActivityExistsForThisProject(String activityName) { // 
         this.currentActivity = this.currentProject.createActivity(activityName, 10, 1, 2, 2026, 2026, true);
     }
 
@@ -93,8 +91,6 @@ public class AssignEmployeeSteps {
         currentActivity.assignUser(member);
     }
 
-    // REMOVED: @Then("the system should show an error message")
-    // (Cucumber will now use the one inside EditTimeRegistration.java)
 
     @When("the project leader assigns the employee {string} to a non existing activity")
     public void theProjectLeaderAssignsTheEmployeeToANonExistingActivity(String name) {
@@ -103,7 +99,6 @@ public class AssignEmployeeSteps {
             Member member = currentProject.findMemberByUser(this.employee);
 
             Activity nonExistingActivity = null;
-            // This forces a NullPointerException, which is caught and saved to the holder
             nonExistingActivity.assignUser(member);
 
         } catch (Exception e) {
