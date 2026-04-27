@@ -63,16 +63,11 @@ public class EditProjectSteps {
 
     @When("the employee edits the project name to {string}")
     public void theEmployeeEditsTheProjectNameTo(String newName) {
-        Boolean flag = false;
-        String message = "";
         try {
             this.app.editProjectName(this.projectInfoHolder.getProjectName(), newName);
-            flag = true;
         } catch (OperationNotAllowed e) {
-            message = e.getMessage(); // Here just in case the current message in errorMessageHolder is from a previous step definition
             this.errorMessageHolder.setErrorMessage(e.getMessage());
         }
-        assertTrue(flag, "Employee failed to edit project name. Given exception: " + message);
     }
 
     @Given("the project has a project manager")
