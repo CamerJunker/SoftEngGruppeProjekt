@@ -65,6 +65,14 @@ public class Project {
         member.recordActivityTime(activity, hours);
     }
 
+    public void removeActivityTime(User user, Activity activity, float hours) throws Exception {
+        Member member = findMemberByUser(user);
+        if (member == null) {
+            throw new Exception("User not assigned to project");
+        }
+        member.removeActivityTime(activity, hours);
+    }
+
     public Report generateProjectReport(User user) {
         if (projectLeader != user) {
             return null;

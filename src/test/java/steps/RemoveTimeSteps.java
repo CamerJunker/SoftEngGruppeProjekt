@@ -1,14 +1,14 @@
 package steps;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import projectmanagement.Activity;
 import projectmanagement.Project;
 import projectmanagement.User;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class RemoveTimeSteps {
 
@@ -41,7 +41,7 @@ public class RemoveTimeSteps {
     @When("the employee removes {int} hours from the activity {string}")
     public void the_employee_removes_hours_from_the_activity(Integer hours, String activityName) {
         try {
-            this.project.removeActivityTime(this.activity, hours.floatValue());
+            this.project.removeActivityTime(this.user, this.activity, hours.floatValue());
         } catch (Exception e) {
             this.thrownException = e;
         }
