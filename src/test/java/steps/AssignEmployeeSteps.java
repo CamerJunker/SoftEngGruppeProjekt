@@ -12,10 +12,11 @@ class AssignEmployeeSteps {
     private ArrayList<Project> projectLists = new ArrayList<>();
     private ArrayList<User> projectLeaders = new ArrayList<>();
 
+    private Project currentProject;
+
         @Given("the project {string} exists")
         public void theProjectExists(String projectName) {
-            Project newProject = new Project(projectName);
-            projectLists.add(newProject);
+            
         }
 
         @Given("the project leader {string} exists")
