@@ -32,7 +32,7 @@ public class EditTimeRegistration {
 
     @Given("the employee {string} exists")
     public void theEmployeeExists(String userName) {
-        assertTrue(this.user.getName().equals(userName));
+        assertTrue(this.user.getName().equalsIgnoreCase(userName));
     }
     
     @Given("the activity {string} exists")
