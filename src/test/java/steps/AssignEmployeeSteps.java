@@ -34,7 +34,7 @@ public class AssignEmployeeSteps {
         this.currentActivity = this.currentProject.createActivity("activityname", 10, 1, 2, 2026, 2026, true);
     }
 
-    @Given("the project {string} exists")
+    @Given("a project {string} exists")
     public void theProjectExists(String projectName) {
         assertTrue(this.currentProject.getName().equals(projectName));
     }
