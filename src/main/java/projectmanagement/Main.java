@@ -194,6 +194,16 @@ public class Main {
             }
         }
     }
+
+    public String getProjectLeaderName(String projectname) throws OperationNotAllowed {
+        Project project = this.getProject(projectname);
+        if(project != null && this.projectHasProjectLeader(projectname)){
+            User projectleader = project.getProjectLeader();
+            return projectleader.getName();
+        } else {
+            return "";
+        }
+    }
 }
 
 

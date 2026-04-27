@@ -36,7 +36,7 @@ public class RegisterProjectSteps {
     public void theEmployeeRegistersAProjectWithTheName(String string) {
         try {
             this.app.NewProject(string);
-        this.projectInfoHolder.setProjectName(string);
+            this.projectInfoHolder.setProjectName(string);
         } catch (OperationNotAllowed exception) {
             this.errorMessageHolder.setErrorMessage(exception.getMessage());
         }
@@ -50,12 +50,18 @@ public class RegisterProjectSteps {
 
     @Given("there exists a project with the name {string}")
     public void thereExistsAProjectWithTheName(String string) {
+        Boolean flag = false;
         try {
             this.projectInfoHolder.setProjectName(string);
-            this.app.NewProject(this.projectInfoHolder.getProjectName());
+            if (!this.app.searchProject(string)){
+                this.app.NewProject(this.projectInfoHolder.getProjectName());
+            }
+            
+            flag = true;
         } catch (OperationNotAllowed exception) {
             this.errorMessageHolder.setErrorMessage(exception.getMessage());
         }
+        assertTrue(flag, "Failed to create project in step definition. Exception: " + this.errorMessageHolder.getErrorMessage());
     }
 
     @Then("the error message {string} is given")

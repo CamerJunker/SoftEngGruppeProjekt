@@ -42,10 +42,10 @@ public class EditProjectSteps {
         }
     }
 
-    @Then("the project is removed from the project list")
-    public void theProjectIsRemovedFromTheProjectList() {
-        assertFalse(this.app.searchProject(this.projectInfoHolder.getProjectName()));
-    }
+    // @Then("the project is removed from the project list")
+    // public void theProjectIsRemovedFromTheProjectList() {
+    //     assertFalse(this.app.searchProject(this.projectInfoHolder.getProjectName()));
+    // }
 
     @Given("the employee is not the project manager of the project")
     public void theEmployeeIsNotTheProjectManagerOfTheProject() {
@@ -56,18 +56,23 @@ public class EditProjectSteps {
         }
     }
 
-    @Then("the project still exists in the project list")
-    public void theProjectStillExistsInTheProjectList() {
-        assertTrue(this.app.searchProject(this.projectInfoHolder.getProjectName()));
-    }
+    // @Then("the project still exists in the project list")
+    // public void theProjectStillExistsInTheProjectList() {
+    //     assertTrue(this.app.searchProject(this.projectInfoHolder.getProjectName()));
+    // }
 
     @When("the employee edits the project name to {string}")
     public void theEmployeeEditsTheProjectNameTo(String newName) {
+        Boolean flag = false;
+        String message = "";
         try {
             this.app.editProjectName(this.projectInfoHolder.getProjectName(), newName);
+            flag = true;
         } catch (OperationNotAllowed e) {
+            message = e.getMessage(); // Here just in case the current message in errorMessageHolder is from a previous step definition
             this.errorMessageHolder.setErrorMessage(e.getMessage());
         }
+        assertTrue(flag, "Employee failed to edit project name. Given exception: " + message);
     }
 
     @Given("the project has a project manager")
@@ -81,17 +86,46 @@ public class EditProjectSteps {
         }
     }
 
-    @Then("the projects name is {string}")
-    public void theProjectsNameIs(String projectName) {
-        assertTrue(this.app.searchProject(projectName));
-    }
+    // @Then("the projects name is {string}")
+    // public void theProjectsNameIs(String projectName) {
+    //     assertTrue(this.app.searchProject(projectName));
+    // }
 
     @Given("the project does not have a project manager")
     public void theProjectDoesNotHaveAProjectManager() {
         try {
+            if(this.app.projectHasProjectLeader(this.projectInfoHolder.getProjectName())){
+                this.app.removeProjectLeader(this.projectInfoHolder.getProjectName());
+            }
+            // Check that project leader is removed
             assertFalse(this.app.projectHasProjectLeader(this.projectInfoHolder.getProjectName()));
         } catch (OperationNotAllowed e) {
             this.errorMessageHolder.setErrorMessage(e.getMessage());
         }
+    }
+
+    @Given("there does not exist a project with the name {string}")
+    public void thereDoesNotExistAProjectWithTheName(String projectname) {
+        // Remove project with this name, if it exists
+        try {
+            if(this.app.searchProject(projectname)){
+                String projectLeaderName = this.app.getProjectLeaderName(projectname);
+                this.app.loginUser(projectLeaderName);
+                this.app.removeProjectLeader(projectname);
+                this.app.loginUser(this.employeeInfoHolder.getName());
+            }
+        } catch (OperationNotAllowed e) {
+            this.errorMessageHolder.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the project {string} does not exist")
+    public void theProjectDoesNotExist(String string) {
+        assertFalse(this.app.searchProject(string));
+    }
+
+    @Then("the project {string} exists")
+    public void theProjectExists(String string) {
+        assertTrue(this.app.searchProject(string));
     }
 }
