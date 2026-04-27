@@ -37,7 +37,14 @@ public class RegisterTimeSteps {
     @When("the employee registers {int} hours on the activity {string}")
     public void theEmployeeRegistersHoursOnTheActivity(Integer hours, String activityName) {
         expectedHours = hours.floatValue();
-        project.registerTime(activity, expectedHours, user);
+        try {
+            if (activity == null || !activity.getName().equals(activityName)) {
+                throw new Exception("Activity does not exist");
+            }
+            project.registerTime(activity, expectedHours, user);
+        } catch (Exception e) {
+            this.thrownException = e;
+        }
     }
 
     @Then("the system logs the time entry")
