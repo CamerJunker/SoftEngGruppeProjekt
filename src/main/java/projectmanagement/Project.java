@@ -36,9 +36,14 @@ public class Project {
         return this.activityList;
     }
 
-    public float getRegisteredActivityTimeForUser(User user, Activity activity) {
+    public float getRegisteredActivityTimeForUser(User user, Activity activity) throws Exception {
         Member member = findMemberByUser(user);
-        return member.getActivityTime(activity);
+        try {
+            return member.getActivityTime(activity);
+        }
+        catch (Exception e) {
+            throw new Exception("No activity found");
+        }
     }
 
     public boolean userHasActivities(User user) {
@@ -128,7 +133,7 @@ class Member {
         return this.activityTimes;
     }
 
-    public float getActivityTime(Activity activity) {
+    public float getActivityTime(Activity activity) throws Exception {
         
         boolean foundActivity = false;
         // Search through all activities and update the time for the activity if it exists
@@ -140,7 +145,7 @@ class Member {
         
         // If the acitity has not been recorded previously
         if (!foundActivity) {
-            return 0.0f;
+            throw new Exception("No activity found");
         }
         return 0.0f;
     }
@@ -165,7 +170,7 @@ class Member {
 
     }
 
-    public void removeActivityTime(Activity activity, float hours) {
+    public void removeActivityTime(Activity activity, float hours) throws Exception{
 
         boolean foundActivity = false;
 
@@ -177,16 +182,15 @@ class Member {
 
                 // Check if remove value is higher than the logged time before removing 
                 if (hours > currentHours) {
-                    System.out.println("Cannot remove more hours than registered");
-                    return;
+                    throw new Exception("Cannot remove more hours than registered");
                 }
-
+                
                 activityTime.updateTime(-hours);
             }
         }
-
+        
         if (!foundActivity) {
-            System.out.println("No existing time logged on activity");
+            throw new Exception("No existing time logged on activity");
         }
     }
 }
