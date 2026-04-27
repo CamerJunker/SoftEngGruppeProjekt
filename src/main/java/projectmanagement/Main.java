@@ -108,7 +108,7 @@ public class Main {
             }
 
             if (!this.checkProjectLeader(projectname, this.currentUser.getName())){
-                throw new OperationNotAllowed("Employee is not the project manager");
+                throw new OperationNotAllowed("Employee is not the project leader");
             }
         }
     }
@@ -126,7 +126,7 @@ public class Main {
             } else if (this.checkProjectLeader(project.getName(), this.currentUser.getName())) {
                 project.editProjectName(newName);
             } else {
-                throw new OperationNotAllowed("Employee is not the project manager");
+                throw new OperationNotAllowed("Employee is not the project leader");
             }
 
         } else {

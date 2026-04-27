@@ -22,8 +22,8 @@ public class EditProjectSteps {
         this.employeeInfoHolder = employeeInfoHolder;
     }
 
-    @Given("the employee is the project manager of the project")
-    public void theEmployeeIsTheProjectManagerOfTheProject() {
+    @Given("the employee is the project leader of the project")
+    public void theEmployeeIsTheProjectLeaderOfTheProject() {
         // Check if current user, currently logged in, is the projectleader
         try {
             this.app.setProjectLeader(this.projectInfoHolder.getProjectName(), this.employeeInfoHolder.getName());
@@ -47,8 +47,8 @@ public class EditProjectSteps {
     //     assertFalse(this.app.searchProject(this.projectInfoHolder.getProjectName()));
     // }
 
-    @Given("the employee is not the project manager of the project")
-    public void theEmployeeIsNotTheProjectManagerOfTheProject() {
+    @Given("the employee is not the project leader of the project")
+    public void theEmployeeIsNotTheProjectLeaderOfTheProject() {
         try {
             assertFalse(this.app.checkProjectLeader(this.projectInfoHolder.getProjectName(),this.employeeInfoHolder.getName()));
         } catch (OperationNotAllowed e) {
@@ -70,10 +70,10 @@ public class EditProjectSteps {
         }
     }
 
-    @Given("the project has a project manager")
-    public void theProjectHasAProjectManager() {
+    @Given("the project has a project leader")
+    public void theProjectHasAProjectLeader() {
         try {
-            // Make an existing employee the project manager, the initials are not the same as current user, so we use a string "ANNA"
+            // Make an existing employee the project leader, the initials are not the same as current user, so we use a string "ANNA"
             this.app.setProjectLeader(this.projectInfoHolder.getProjectName(), "ANNA");
             assertTrue(this.app.projectHasProjectLeader(this.projectInfoHolder.getProjectName()));
         } catch (OperationNotAllowed e) {
@@ -86,8 +86,8 @@ public class EditProjectSteps {
     //     assertTrue(this.app.searchProject(projectName));
     // }
 
-    @Given("the project does not have a project manager")
-    public void theProjectDoesNotHaveAProjectManager() {
+    @Given("the project does not have a project leader")
+    public void theProjectDoesNotHaveAProjectLeader() {
         try {
             if(this.app.projectHasProjectLeader(this.projectInfoHolder.getProjectName())){
                 this.app.removeProjectLeader(this.projectInfoHolder.getProjectName());
