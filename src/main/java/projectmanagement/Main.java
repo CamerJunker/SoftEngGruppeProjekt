@@ -88,6 +88,12 @@ public class Main {
 
         if (project != null) {
             User projectLeader = project.getProjectLeader();
+
+            // If there is not already a project leader
+            if (projectLeader == null){
+                return false;
+            }
+
             if (projectLeader.equals(user)){
                 return true;
             }
