@@ -85,20 +85,15 @@ public class Main {
     public Boolean checkProjectLeader(String projectname, String username) throws OperationNotAllowed {
         Project project = this.getProject(projectname);
         User user = this.getUser(username);
+        User projectLeader = project.getProjectLeader();
 
-        if (project != null) {
-            User projectLeader = project.getProjectLeader();
+        // If there is not already a project leader
+        if (!this.projectHasProjectLeader(projectname)){
+            return false;
+        }
 
-            // If there is not already a project leader
-            if (projectLeader == null){
-                return false;
-            }
-
-            if (projectLeader.equals(user)){
-                return true;
-            }
-        } else {
-            throw new OperationNotAllowed("Project does not exist");
+        if (projectLeader.equals(user)){
+            return true;
         }
         return false;
     }
@@ -124,7 +119,7 @@ public class Main {
             Project project = this.getProject(oldName);
 
             // If project has no project leader
-            if (!this.projectHasProjectLeader(newName)){
+            if (!this.projectHasProjectLeader(project.getName())){
                 project.editProjectName(newName);
 
             // If current user is project leader
@@ -161,30 +156,18 @@ public class Main {
         Project project = this.getProject(projectname);
         User chosenUser = this.getUser(newProjectLeaderName);
 
-        // If project and user exists, and if the current user is the project leader OR if there is currently no project leader, then set the chosen user as project leader
-        if(project != null && chosenUser != null && (this.checkProjectLeader(projectname, this.currentUser.getName()) || project.getProjectLeader() == null)) {
+        // If project does not have a project leader or current user is project leader
+        if(!this.projectHasProjectLeader(projectname) || this.checkProjectLeader(projectname, this.currentUser.getName())) {
             project.setProjectLeader(chosenUser);
-        } else {
-            if (project == null){
-                throw new OperationNotAllowed("Project does not exist");
-            }
-            
-            if (chosenUser == null){
-                throw new OperationNotAllowed("User does not exist");
-            }
         }
     }
 
     public void removeProjectLeader(String projectname) throws OperationNotAllowed {
-        // If project exists, there is a project leader and user is project leader
         Project project = this.getProject(projectname);
-        if (project != null && this.projectHasProjectLeader(projectname) && this.checkProjectLeader(projectname, this.currentUser.getName())){
+        // If the project has a project leader and current user is project leader
+        if (this.projectHasProjectLeader(projectname) && this.checkProjectLeader(projectname, this.currentUser.getName())){
             project.removeProjectLeader();
         } else {
-            if (project == null) {
-                throw new OperationNotAllowed("Project does not exist");
-            }
-
             if (!this.projectHasProjectLeader(projectname)){
                 throw new OperationNotAllowed("Cannot remove project leader when no project leader is assigned");
             }

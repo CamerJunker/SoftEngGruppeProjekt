@@ -21,13 +21,13 @@ public class RemoveTimeSteps {
         this.project = new Project("TestProject");
     }
 
-    @Given("an employee with initials {string}")
+    @Given("an employee with initials {string} has registered time to remove")
     public void an_employee_with_initials(String initials) {
         this.user = new User(initials);
         this.project.assignUser(user);
     }
 
-    @Given("an activity {string} exists in project with serial number {string}")
+    @Given("an activity {string} exists in project with serial number {string} for removing time")
     public void an_activity_exists_in_project_with_serial_number(String name, String serial) {
         // Serial not usable with current API
         this.activity = project.createActivity(name, 50, 1, 10, 2026, 2026, true);
@@ -47,7 +47,7 @@ public class RemoveTimeSteps {
         }
     }
 
-    @Then("the system returns the error {string}")
+    @Then("the system returns the remove time error {string}")
     public void the_system_returns_the_error(String message) {
         if (this.thrownException == null) {
             fail("Expected exception but none was thrown");
