@@ -16,7 +16,7 @@ public class ProjectReportingSteps {
     private Report report;
 
 
-    ProjectReportingSteps() {
+    public ProjectReportingSteps() {
         this.project = new Project("TestProject");
         this.user1 = new User("User1");
 
