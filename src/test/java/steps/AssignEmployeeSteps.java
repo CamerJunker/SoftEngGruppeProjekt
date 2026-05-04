@@ -53,7 +53,6 @@ public class AssignEmployeeSteps {
     @When("the project leader assigns the employee {string} to the activity {string}")
     public void theProjectLeaderAssignsTheEmployeeToTheActivity(String name, String activityName) {
         try {   
-            // Validate against the hardcoded data
             assertTrue(this.employee.getName().equals(name));
             assertTrue(this.currentActivity.getName().equals(activityName));
 
