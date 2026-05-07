@@ -1,12 +1,85 @@
 package projectmanagement;
 
 import java.util.ArrayList;
-
+import java.util.Scanner;
+import java.lang.Thread;
 public class Main {
     private Boolean UserLoggedInFlag = false;
     private User currentUser;
     private ArrayList<User> ListOfUsers = new ArrayList<>();
     private ArrayList<Project> ListOfProjects = new ArrayList<>();
+
+
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        Main app = new Main();
+        System.out.println("Intern SoftwareHuset program");
+        while (true) {
+            if (!app.CheckUserLoggedIn()) {
+                System.out.println("LOGIN MENU");
+                System.out.println("Type in your initials to login");
+
+                String initials = scanner.nextLine();
+                try{
+                    app.loginUser(initials);
+                    System.out.println(initials + " logged in");
+                } catch (OperationNotAllowed e){
+                    System.out.println(e.getMessage());
+                    break;
+                }
+            } else {
+                System.out.println("MAIN MENU");
+                System.out.println("Choose your next action:");
+                System.out.println("1: See Projects");
+                System.out.println("2: Make a new project");
+                System.out.println("3: Select a project");
+                String projectOptions = scanner.nextLine();
+                if(projectOptions.equals("1")){
+                    if (app.ListOfProjects.isEmpty()) {
+                        System.out.println("There is currently no projects ongoing");   
+                    } else {
+                        for(Project projects : app.ListOfProjects){
+                            System.out.println(projects.getName());
+                        }
+                    }
+                    
+                } else if(projectOptions.equals("2")){
+                    System.out.println("Enter the name of your new project");
+                    String newProjectName = scanner.nextLine();
+                    Project newProject = new Project(newProjectName);
+                    app.ListOfProjects.add(newProject);
+                } else if(projectOptions.equals("3")){
+                    System.out.println("Type in the name of the project you wish to select");
+                    String projectName = scanner.nextLine();
+                    boolean projectExists = false;
+                    for(Project project : app.ListOfProjects){
+                        if(project.getName().equals(projectName));
+                        projectExists = true;
+                    }
+                    if (projectExists) {
+                        System.out.println(projectName + "Has been selected");
+                        Project project = app.getProject(projectName);
+                        boolean projectHasLeader = project.hasProjectLeader();
+                        boolean projectMenu = true;
+                        while (projectMenu) {
+                            if (!projectHasLeader) {
+                                System.out.println("This Project currently does not have a project leader");
+                                System.out.println("Choose your next action:");
+                                String projectOption = scanner.nextLine();
+                                
+                            } else {
+                            
+                            }                            
+                        }
+                    }
+                } else {
+                    System.out.println(projectOptions + " Does not exist as an option");
+                }
+            }
+        }
+        scanner.close();
+    }
+
 
     public Main(){
         // Users must be made before, as there should not be a function to add a user.
