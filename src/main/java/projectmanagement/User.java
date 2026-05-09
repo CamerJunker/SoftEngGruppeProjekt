@@ -1,6 +1,7 @@
     package projectmanagement;
 
     import java.util.ArrayList;
+    import java.util.Locale;
 
     import projectmanagement.Date;
 
@@ -9,6 +10,9 @@
         private ArrayList<Date> vacationDays;
 
         public User(String name) {
+            if (name == null || !name.matches("(?i)[a-z]{1,4}")) {
+                throw new IllegalArgumentException("Employee initials must be 1 to 4 letters");
+            }
             this.name = name;
             this.vacationDays = new ArrayList<>();
         }
@@ -38,6 +42,23 @@
                 }
             }
             throw new Exception("Vacation day not registered");
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            if (this == object) {
+                return true;
+            }
+            if (!(object instanceof User)) {
+                return false;
+            }
+            User otherUser = (User) object;
+            return this.name.equalsIgnoreCase(otherUser.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return this.name.toLowerCase(Locale.ROOT).hashCode();
         }
     }
 
