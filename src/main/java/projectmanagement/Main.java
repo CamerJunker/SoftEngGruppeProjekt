@@ -256,7 +256,7 @@ public static void main(String[] args) {
     }
 
     // Check if user exists in preexisting list of users
-    private Boolean searchUser(String UserInitials){
+    public Boolean searchUser(String UserInitials){
         for (User searchUser : this.ListOfUsers){
             String searchUserInitials = searchUser.getName();
             if (searchUserInitials.equalsIgnoreCase(UserInitials)){
@@ -287,20 +287,6 @@ public static void main(String[] args) {
             throw new OperationNotAllowed("Project name already exists");
         }
     }
-
-<<<<<<< HEAD
-=======
-    public Boolean searchProject(String projectname) {
-        for (Project project : this.ListOfProjects){
-            String searchProjectName = project.getName();
-
-            if (searchProjectName.equalsIgnoreCase(projectname)){
-                return true;
-            }
-        }
-        return false;
-    }
->>>>>>> 71a501da76d297e3d722f88656c3833bf3288abb
 
     private Project getProject(String projectname) {
         for (Project project : this.ListOfProjects) {

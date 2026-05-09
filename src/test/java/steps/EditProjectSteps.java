@@ -53,6 +53,7 @@ public class EditProjectSteps {
             assertFalse(this.app.checkProjectLeader(this.projectInfoHolder.getProjectName(),this.employeeInfoHolder.getName()));
         } catch (OperationNotAllowed e) {
             this.errorMessageHolder.setErrorMessage(e.getMessage());
+            assertTrue(false, "Exception received: " + this.errorMessageHolder.getErrorMessage());
         }
     }
 
