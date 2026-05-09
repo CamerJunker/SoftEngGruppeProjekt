@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Activity {
     private String name;
-    private int budgetedTime;
+    private float budgetedTime;
     private Date startDate;
     private Date endDate;
     private boolean status;
@@ -36,7 +36,7 @@ public class Activity {
     public String getName() {
         return this.name;
     }
-    public int getBudgetedTime() {
+    public float getBudgetedTime() {
         return this.budgetedTime;
     }
     public Date getStartDate() {
@@ -50,6 +50,10 @@ public class Activity {
     }
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public void setBudgetedTime(float budgetedTime) {
+        this.budgetedTime = budgetedTime;
     }
 
     public ArrayList<Member> getAssignedUsers(){
