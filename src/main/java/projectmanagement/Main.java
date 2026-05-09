@@ -321,19 +321,17 @@ public static void main(String[] args) {
     }
 
     public void deleteProject(String projectname) throws OperationNotAllowed {
-        if (this.searchProject(projectname) && 
-        (!this.projectHasProjectLeader(projectname)) || 
-        this.checkProjectLeader(projectname, this.currentUser.getName())){                              // 1
-            Project project = this.getProject(projectname);                                             // 2
-            this.ListOfProjects.remove(project);                                                        // 3
-        } else {
-            if (!this.searchProject(projectname)){                                                      // 4
-                throw new OperationNotAllowed("Project does not exist");                  // 5
-            }
+        if(!this.searchProject(projectname)){                               // 1
+            throw new OperationNotAllowed("Project does not exist");                                                        // 2
+        }
 
-            if (!this.checkProjectLeader(projectname, this.currentUser.getName())){                     // 6
-                throw new OperationNotAllowed("Employee is not the project leader");      // 7
-            }
+        if (!this.projectHasProjectLeader(projectname) || 
+        this.checkProjectLeader(projectname, this.currentUser.getName())){                                                                   // 3
+            Project project = this.getProject(projectname);                                                  // 4
+            this.ListOfProjects.remove(project);                                                      // 5
+        } else if (!this.checkProjectLeader(projectname, 
+            this.currentUser.getName())){                                                               // 6
+            throw new OperationNotAllowed("Employee is not the project leader");                                               // 7
         }
     }
 
