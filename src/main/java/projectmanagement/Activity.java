@@ -1,25 +1,19 @@
 package projectmanagement;
 import java.util.ArrayList;
 
-import projectmanagement.Project;
-
 public class Activity {
     private String name;
     private int budgetedTime;
-    private int startWeek;
-    private int endWeek;
-    private int startYear;
-    private int endYear;
+    private Date startDate;
+    private Date endDate;
     private boolean status;
     private ArrayList<Member> assignedUsers;
 
-    public Activity(String name, int budgetedTime, int startWeek, int endWeek, int startYear, int endYear, boolean status) {
+    public Activity(String name, int budgetedTime, Date startDate, Date endDate, boolean status) {
         this.name = name;
         this.budgetedTime = budgetedTime;
-        this.startWeek = startWeek;
-        this.endWeek = endWeek;
-        this.startYear = startYear;
-        this.endYear = endYear;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.status = status;
 
         assignedUsers = new ArrayList<Member>();
@@ -31,17 +25,11 @@ public class Activity {
     public int getBudgetedTime() {
         return this.budgetedTime;
     }
-    public int getStartWeek() {
-        return this.startWeek;
+    public Date getStartDate() {
+        return this.startDate;
     }
-    public int getEndWeek() {
-        return this.endWeek;
-    }
-    public int getStartYear() {
-        return this.startYear;
-    }
-    public int getEndYear() {
-        return this.endYear;
+    public Date getEndDate() {
+        return this.endDate;
     }
     public boolean getStatus() {
         return this.status;

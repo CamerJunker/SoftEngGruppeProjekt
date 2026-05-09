@@ -7,6 +7,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import projectmanagement.Activity;
+import projectmanagement.Date;
 import projectmanagement.Project;
 import projectmanagement.User;
 import projectmanagement.Member;
@@ -31,7 +32,7 @@ public class AssignEmployeeSteps {
         this.employee = new User("huba"); 
         this.currentProject.assignUser(this.employee);
         
-        this.currentActivity = this.currentProject.createActivity("activityname", 10, 1, 2, 2026, 2026, true);
+        this.currentActivity = this.currentProject.createActivity("activityname", 10, new Date(1, 1, 2026), new Date(14, 1, 2026), true);
     }
 
     @Given("a project {string} exists")
@@ -46,7 +47,7 @@ public class AssignEmployeeSteps {
 
     @Given("the activity {string} exists for this project")
     public void theActivityExistsForThisProject(String activityName) { // 
-        this.currentActivity = this.currentProject.createActivity(activityName, 10, 1, 2, 2026, 2026, true);
+        this.currentActivity = this.currentProject.createActivity(activityName, 10, new Date(1, 1, 2026), new Date(14, 1, 2026), true);
     }
 
 

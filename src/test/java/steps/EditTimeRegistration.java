@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import projectmanagement.Project;
 import projectmanagement.User;
 import projectmanagement.Activity;
+import projectmanagement.Date;
 
 
 public class EditTimeRegistration {
@@ -27,7 +28,7 @@ public class EditTimeRegistration {
         this.user = new User("HUBA");
 
         this.project.assignUser(this.user);
-        this.activity = this.project.createActivity("activityname", 5, 1, 2, 2026, 2026, true);
+        this.activity = this.project.createActivity("activityname", 5, new Date(1, 1, 2026), new Date(14, 1, 2026), true);
     }
 
     @Given("the employee {string} exists")
