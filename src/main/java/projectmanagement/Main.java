@@ -38,7 +38,7 @@ public static void main(String[] args) {
             System.out.println("1: See Projects");
             System.out.println("2: Make a new project");
             System.out.println("3: Select a project");
-            // System.out.println("4: Register vacation days");
+            System.out.println("4: Register vacation days");
 
             String projectOptions = scanner.nextLine();
 
@@ -218,7 +218,7 @@ public static void main(String[] args) {
                                             System.out.println(e.getMessage());
                                         }
                                     }
-                                } else if (pmOptions.equals("9")) {
+                                } else if (pmOptions.equals("0")) {
                                     projectMenu = false;
                                 } else {
                                     System.out.println(pmOptions + " does not exist as an option");
@@ -226,7 +226,7 @@ public static void main(String[] args) {
                             } else {
                                 System.out.println(project.getProjectLeader().getName() + " is the current project leader");
                                 boolean isCurrentUserProjectLeader;
-                                if(project.getProjectLeader().getName().equals(app.currentUser.getName())){
+                                if(project.getProjectLeader().getName().equalsIgnoreCase(app.currentUser.getName())){
                                     isCurrentUserProjectLeader = true;
                                 } else {
                                     isCurrentUserProjectLeader = false;
@@ -238,7 +238,7 @@ public static void main(String[] args) {
                                 System.out.println("3: Assign user to an activity");
                                 System.out.println("4: Create new activity");
                                 System.out.println("5: Register finished activity");
-                                System.out.println("6: Select a project manager");
+                                System.out.println("6: Select a new project leader");
                                 System.out.println("7: Edit project");
                                 System.out.println("8: Delete project");
                                 System.out.println("9: Get report");
@@ -309,21 +309,35 @@ public static void main(String[] args) {
                                             System.out.println("Enter initials of user to be assigned");
                                             String initials = scanner.nextLine();
 
+                                            Activity foundActivity = null;
+
                                             for(Activity activity : project.getActivityList()){
                                                 if(activity.getName().equalsIgnoreCase(activityName)){
-                                                    for(Member mem : project.getRegisteredMembers()){
-                                                        if(mem.getUser().getName().equalsIgnoreCase(initials)){
-                                                            try {
-                                                                activity.assignUser(mem);
-                                                                System.out.println(initials + " has been assigned to " + activityName);
-                                                            } catch (Exception e) {
-                                                                System.out.println(e.getMessage());
-                                                            }
-                                                        }
-                                                    }
+                                                    foundActivity = activity;
                                                     break;
-                                                } else {
-                                                    System.out.println("Activity does not exist");
+                                                }
+                                            }
+
+                                            if(foundActivity == null){
+                                                System.out.println("Activity does not exist");
+                                            } else {
+                                                boolean memberExists = false;
+
+                                                for(Member mem : project.getRegisteredMembers()){
+                                                    if(mem.getUser().getName().equalsIgnoreCase(initials)){
+                                                        try {
+                                                            foundActivity.assignUser(mem);
+                                                            System.out.println(initials + " has been assigned to " + activityName);
+                                                        } catch (Exception e) {
+                                                            System.out.println(e.getMessage());
+                                                        }
+                                                        memberExists = true;
+                                                        break;
+                                                    }
+                                                }
+
+                                                if(!memberExists){
+                                                    System.out.println("User is not registered on this project");
                                                 }
                                             }
                                         } else {
@@ -334,7 +348,29 @@ public static void main(String[] args) {
 
                                     case "4": {
                                         if(isCurrentUserProjectLeader){
+                                            System.out.println("Enter activity name");
+                                            String activityName = scanner.nextLine();
+                                            System.out.println("Enter budgeted time");
+                                            int budgetedTime = scanner.nextInt();
+                                            System.out.println("Enter start day");
+                                            int startDay = scanner.nextInt();
+                                            System.out.println("Enter start month");
+                                            int startMonth = scanner.nextInt();
+                                            System.out.println("Enter start year");
+                                            int startYear = scanner.nextInt();
+                                            System.out.println("Enter end day");
+                                            int endDay = scanner.nextInt();
+                                            System.out.println("Enter end month");
+                                            int endMonth = scanner.nextInt();
+                                            System.out.println("Enter end year");
+                                            int endYear = scanner.nextInt();
+                                            scanner.nextLine();
 
+                                            Date startDate = new Date(startDay, startMonth, startYear);
+                                            Date endDate = new Date(endDay, endMonth, endYear);
+
+                                            project.createActivity(activityName,budgetedTime,startDate,endDate,true);
+                                            System.out.println(activityName + " has been created");
                                         } else {
                                             System.out.println(pmOption + " does not exist as an option");
                                         }
@@ -343,7 +379,21 @@ public static void main(String[] args) {
 
                                     case "5": {
                                         if(isCurrentUserProjectLeader){
+                                            System.out.println("Enter the activity name");
+                                            String activityName = scanner.nextLine();
+                                            boolean activityExists = false;
+                                            for (Activity activity : project.getActivityList()) {
+                                                if (activity.getName().equalsIgnoreCase(activityName)) {
+                                                    activity.setStatus(false);
+                                                    System.out.println(activity.getName() + " is now inactive");
+                                                    activityExists = true;
+                                                    break;
+                                                }
+                                            }
 
+                                            if (!activityExists) {
+                                                System.out.println("Activity does not exist");
+                                            }
                                         } else {
                                             System.out.println(pmOption + " does not exist as an option");
                                         }
@@ -352,7 +402,15 @@ public static void main(String[] args) {
 
                                     case "6": {
                                         if(isCurrentUserProjectLeader){
-
+                                            System.out.println("Enter the initials of the new project leader");
+                                            String userInitials = scanner.nextLine();
+                                            try {
+                                                app.setProjectLeader(project.getName(), userInitials);
+                                                System.out.println(userInitials + " is now project leader");
+                                                projectHasLeader = true;
+                                            } catch (OperationNotAllowed e) {
+                                                System.out.println(e.getMessage());
+                                            }
                                         } else {
                                             System.out.println(pmOption + " does not exist as an option");
                                         }
@@ -361,7 +419,16 @@ public static void main(String[] args) {
 
                                     case "7": {
                                         if(isCurrentUserProjectLeader){
+                                            System.out.println("Enter the new name for the project");
+                                            String newName = scanner.nextLine();
 
+                                            try {
+                                                app.editProjectName(project.getName(), newName);
+                                                project = app.getProject(newName);
+                                                System.out.println("Project name changed to " + newName);
+                                            } catch (OperationNotAllowed e) {
+                                                System.out.println(e.getMessage());
+                                            }
                                         } else {
                                             System.out.println(pmOption + " does not exist as an option");
                                         }
@@ -370,7 +437,19 @@ public static void main(String[] args) {
 
                                     case "8": {
                                         if(isCurrentUserProjectLeader){
-
+                                            System.out.println("Deleting the project is an irreversible action");
+                                            System.out.println("Enter Y if you wish to delete");
+                                            String decision = scanner.nextLine();
+                                            if (decision.equalsIgnoreCase("Y")) {
+                                                try {
+                                                    String deletedProjectName = project.getName();
+                                                    app.deleteProject(project.getName());
+                                                    System.out.println(deletedProjectName + " has been deleted");
+                                                    projectMenu = false;
+                                                } catch (OperationNotAllowed e) {
+                                                    System.out.println(e.getMessage());
+                                                }
+                                            }
                                         } else {
                                             System.out.println(pmOption + " does not exist as an option");
                                         }
@@ -378,11 +457,28 @@ public static void main(String[] args) {
                                     }
 
                                     case "9": {
+                                        if(isCurrentUserProjectLeader){
+                                            Report report = project.generateProjectReport(app.currentUser);
 
+                                            System.out.println("Hours used: " + report.getHoursUsed());
+                                            System.out.println("Budgeted time: " + report.getBudgedtedTime());
+
+                                            if(report.getHoursUsed() > report.getBudgedtedTime()){
+                                                System.out.println("The project is over budget by " + (report.getHoursUsed() - report.getBudgedtedTime()) + " hours");
+                                            } else if(report.getHoursUsed() < report.getBudgedtedTime()){
+                                                System.out.println("The project is under budget by " + (report.getBudgedtedTime() - report.getHoursUsed()) + " hours");
+                                            } else {
+                                                System.out.println("The project is exactly on budget");
+                                            }
+                                        } else {
+                                            System.out.println(pmOption+" does not exist as an option");
+                                        }
+                                        break;
                                     }
 
                                     case "0": {
                                         projectMenu = false;
+                                        break;
                                     }
 
                                     default: {
