@@ -2,7 +2,7 @@ package projectmanagement;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.lang.Thread;
+
 public class Main {
     private Boolean UserLoggedInFlag = false;
     private User currentUser;
@@ -90,7 +90,47 @@ public class Main {
                                         System.out.println("Enter year end");
                                         int endYear = scanner.nextInt();
                                         project.createActivity(activityName,budgetedTime,startWeek,endWeek,startYear,endYear,true);
-                                    }
+                                    } else if (pmOptions.equals("2")) {
+                                        System.out.println("Enter the activity name");
+                                        String activityName = scanner.nextLine();
+                                        System.out.println("Enter hours spent (in decimal)");
+                                        float hoursSpent = scanner.nextFloat();
+
+                                        for(Activity activity : project.getActivityList()){
+                                            if(activity.getName().equals(activityName)){
+                                                project.registerTime(activity, hoursSpent, app.currentUser);
+                                            } else {
+                                                System.out.println("Activity does not exist");
+                                            }
+                                        }
+                                    } else if (pmOptions.equals("3")){
+                                        System.out.println("Enter activity name");
+                                        String activityName = scanner.nextLine();
+                                        System.out.println("Enter time to be removed");
+                                        Float hours = scanner.nextFloat();
+
+                                        for(Activity activity : project.getActivityList()){
+                                            if(activity.getName().equals(activityName)){
+                                                try{
+                                                project.removeActivityTime(app.currentUser,activity,hours);
+                                                } catch (Exception e){
+                                                     System.out.println(e.getMessage());
+                                                }
+                                            } 
+                                        }
+                                    } else if (pmOptions.equals("4")){
+                                        System.out.println("Enter the activity name");
+                                        String activityName = scanner.nextLine();
+                                        System.out.println("Enter hours spent (in decimal)");
+                                        float hoursSpent = scanner.nextFloat();
+
+                                        for(Activity activity : project.getActivityList()){
+                                            if(activity.getName().equals(activityName)){
+                                                project.acti
+                                            } else {
+                                                System.out.println("Activity does not exist");
+                                            }
+                                        }
                                 } else {
                                 
                                 }                     
