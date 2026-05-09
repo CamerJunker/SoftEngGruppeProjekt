@@ -18,7 +18,7 @@ public class ProjectReportingSteps {
 
     public ProjectReportingSteps() {
         this.project = new Project("TestProject");
-        this.user1 = new User("User1");
+        this.user1 = new User("USER");
 
         this.project.assignUser(user1);
         Activity activity = project.createActivity("Activity1", 50, 1, 10, 2026, 2026, true);

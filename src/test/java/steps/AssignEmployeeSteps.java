@@ -25,7 +25,7 @@ public class AssignEmployeeSteps {
 
         this.currentProject = new Project("projectname");
         
-        this.projectLeader = new User("projectleader");
+        this.projectLeader = new User("PLDR");
         this.currentProject.setProjectLeader(this.projectLeader);
         
         this.employee = new User("huba"); 

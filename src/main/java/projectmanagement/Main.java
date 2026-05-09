@@ -169,10 +169,10 @@ public class Main {
     }
 
     // Check if user exists in preexisting list of users
-    public Boolean searchUser(String UserInitials){
+    private Boolean searchUser(String UserInitials){
         for (User searchUser : this.ListOfUsers){
             String searchUserInitials = searchUser.getName();
-            if (searchUserInitials.equals(UserInitials)){
+            if (searchUserInitials.equalsIgnoreCase(UserInitials)){
                 return true;
             }
         }
@@ -183,13 +183,15 @@ public class Main {
     private User getUser(String UserInitials){
         for (User searchUser : this.ListOfUsers){
             String searchUserInitials = searchUser.getName();
-            if (searchUserInitials.equals(UserInitials)){
+            if (searchUserInitials.equalsIgnoreCase(UserInitials)){
                 return searchUser;
             }
         }
         return null;
     }
 
+
+    
     public void NewProject(String projectname) throws OperationNotAllowed{
         if (!this.searchProject(projectname)){
             Project newProject = new Project(projectname);
