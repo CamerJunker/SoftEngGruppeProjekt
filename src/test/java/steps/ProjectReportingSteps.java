@@ -23,7 +23,11 @@ public class ProjectReportingSteps {
 
         this.project.assignUser(user1);
         Activity activity = project.createActivity("Activity1", 50, new Date(1, 1, 2026), new Date(8, 3, 2026), true);
-        this.project.registerTime(activity, 5, user1);
+        try {
+            this.project.registerTime(activity, 5, user1);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         this.project.setProjectLeader(this.user1);
     }

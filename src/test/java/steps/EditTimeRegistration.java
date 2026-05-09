@@ -3,8 +3,6 @@ package steps;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.mk_latn.No;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -56,13 +54,13 @@ public class EditTimeRegistration {
         assertTrue(this.user.getName().equals(initials));
         assertTrue(this.activity.getName().equals(activityName));
         
-        this.project.registerTime(this.activity, hours, this.user);
-        
         try {
+            this.project.registerTime(this.activity, hours, this.user);
             assertTrue(this.project.getRegisteredActivityTimeForUser(this.user, this.activity) == hours);
         }
         catch (Exception e) {
             this.holder.setErrorMessage(e.getMessage());
+            assertTrue(false, e.getMessage());
         }
         
     }
@@ -96,14 +94,14 @@ public class EditTimeRegistration {
             this.holder.setErrorMessage(e.getMessage());
         }
         
-        // Set it to the new time
-        this.project.registerTime(this.activity, hours, this.user);
-        
         try {
+            // Set it to the new time
+            this.project.registerTime(this.activity, hours, this.user);
             assertTrue(this.project.getRegisteredActivityTimeForUser(this.user, this.activity) == hours);
         }
         catch (Exception e) {
             this.holder.setErrorMessage(e.getMessage());
+            assertTrue(false, e.getMessage());
         }
     }
     
