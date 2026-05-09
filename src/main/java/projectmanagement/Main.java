@@ -239,13 +239,13 @@ public class Main {
     }
 
     public void deleteProject(String projectname) throws OperationNotAllowed {
-        if (!this.searchProject(projectname) && 
+        if (this.searchProject(projectname) && 
         (!this.projectHasProjectLeader(projectname)) || 
         this.checkProjectLeader(projectname, this.currentUser.getName())){                              // 1
             Project project = this.getProject(projectname);                                             // 2
             this.ListOfProjects.remove(project);                                                        // 3
         } else {
-            if (this.searchProject(projectname)){                                                       // 4
+            if (!this.searchProject(projectname)){                                                      // 4
                 throw new OperationNotAllowed("Project does not exist");                  // 5
             }
 
