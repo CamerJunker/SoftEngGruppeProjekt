@@ -37,6 +37,7 @@ public static void main(String[] args) {
             System.out.println("1: See Projects");
             System.out.println("2: Make a new project");
             System.out.println("3: Select a project");
+            // System.out.println("4: Register vacation days");
 
             String projectOptions = scanner.nextLine();
 
@@ -174,6 +175,7 @@ public static void main(String[] args) {
                                     try {
                                         app.setProjectLeader(project.getName(), userInitials);
                                         System.out.println(userInitials + " is now project leader");
+                                        projectHasLeader = true;
                                     } catch (OperationNotAllowed e) {
                                         System.out.println(e.getMessage());
                                     }
@@ -210,6 +212,7 @@ public static void main(String[] args) {
                                     System.out.println(pmOptions + " does not exist as an option");
                                 }
                             } else {
+                                System.out.println(project.getProjectLeader().getName() + "is the current project leader");
                                 
                             }
                         }
@@ -219,6 +222,8 @@ public static void main(String[] args) {
                     }
                 }
 
+            } else if(projectOptions.equals("4")){
+                
             } else {
                 System.out.println(projectOptions + " does not exist as an option");
             }

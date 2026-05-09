@@ -47,16 +47,25 @@ public class Project {
 
     public float getRegisteredActivityTimeForUser(User user, Activity activity) throws Exception {
         Member member = findMemberByUser(user);
+
+        if(member == null){
+            throw new Exception("User not assigned to project");
+        }
+
         try {
             return member.getActivityTime(activity);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new Exception("No activity found");
         }
     }
 
     public boolean userHasActivities(User user) {
         Member member = findMemberByUser(user);
+
+        if(member == null){
+            return false;
+        }
+
         return !member.getActivityTimes().isEmpty();
     }
 
@@ -84,6 +93,11 @@ public class Project {
     // Register time done on an actity in hours
     public void registerTime(Activity activity, float hours, User user) {
         Member member = findMemberByUser(user);
+
+        if(member == null){
+            member = new Member(user);
+            registeredMembers.add(member);
+        }
 
         member.recordActivityTime(activity, hours);
     }
