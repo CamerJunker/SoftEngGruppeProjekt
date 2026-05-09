@@ -251,7 +251,7 @@ public static void main(String[] args) {
     }
 
     // Check if user exists in preexisting list of users
-    private Boolean searchUser(String UserInitials){
+    public Boolean searchUser(String UserInitials){
         for (User searchUser : this.ListOfUsers){
             String searchUserInitials = searchUser.getName();
             if (searchUserInitials.equalsIgnoreCase(UserInitials)){
