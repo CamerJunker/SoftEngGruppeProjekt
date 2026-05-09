@@ -288,6 +288,8 @@ public static void main(String[] args) {
         }
     }
 
+<<<<<<< HEAD
+=======
     public Boolean searchProject(String projectname) {
         for (Project project : this.ListOfProjects){
             String searchProjectName = project.getName();
@@ -298,6 +300,7 @@ public static void main(String[] args) {
         }
         return false;
     }
+>>>>>>> 71a501da76d297e3d722f88656c3833bf3288abb
 
     private Project getProject(String projectname) {
         for (Project project : this.ListOfProjects) {
@@ -340,6 +343,17 @@ public static void main(String[] args) {
                 throw new OperationNotAllowed("Employee is not the project leader");      // 7
             }
         }
+    }
+
+    public Boolean searchProject(String projectname) {
+        for (Project project : this.ListOfProjects){
+            String searchProjectName = project.getName();
+
+            if (searchProjectName.equals(projectname)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void editProjectName(String oldName, String newName) throws OperationNotAllowed {
