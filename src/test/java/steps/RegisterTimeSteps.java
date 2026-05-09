@@ -7,6 +7,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import projectmanagement.Activity;
+import projectmanagement.Date;
 import projectmanagement.Project;
 import projectmanagement.User;
 
@@ -29,7 +30,7 @@ public class RegisterTimeSteps {
 
     @Given("an activity {string} exists in project with serial number {string}")
     public void anActivityExistsInProjectWithSerialNumber(String name, String serial) {
-        this.activity = project.createActivity(name, 50, 1, 10, 2026, 2026, true);
+        this.activity = project.createActivity(name, 50, new Date(1, 1, 2026), new Date(8, 3, 2026), true);
     }
 
     private float expectedHours;
