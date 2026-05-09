@@ -33,6 +33,15 @@
             }
             vacationDays.add(date);
         }
+
+        public boolean hasVacationDateBetween(Date startDate, Date endDate) {
+            for(Date vacationDate : this.vacationDays){
+                if(vacationDate.isBetween(startDate, endDate)){
+                    return true;
+                }
+            }
+            return false;
+        }
         
         public void removeVacationDate(Date date) throws Exception{
             for (Date vacationDate : this.vacationDays) {

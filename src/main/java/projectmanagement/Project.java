@@ -91,7 +91,11 @@ public class Project {
     }
 
     // Register time done on an actity in hours
-    public void registerTime(Activity activity, float hours, User user) {
+    public void registerTime(Activity activity, float hours, User user) throws Exception {
+        if(user.hasVacationDateBetween(activity.getStartDate(), activity.getEndDate())){
+            throw new Exception("Cannot register time during vacation period");
+        }
+
         Member member = findMemberByUser(user);
 
         if(member == null){
