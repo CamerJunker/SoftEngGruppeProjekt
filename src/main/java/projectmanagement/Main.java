@@ -283,20 +283,6 @@ public static void main(String[] args) {
         }
     }
 
-<<<<<<< HEAD
-=======
-    public Boolean searchProject(String projectname) {
-        for (Project project : this.ListOfProjects){
-            String searchProjectName = project.getName();
-
-            if (searchProjectName.equalsIgnoreCase(projectname)){
-                return true;
-            }
-        }
-        return false;
-    }
->>>>>>> 71a501da76d297e3d722f88656c3833bf3288abb
-
     private Project getProject(String projectname) {
         for (Project project : this.ListOfProjects) {
             String searchProjectName = project.getName();
