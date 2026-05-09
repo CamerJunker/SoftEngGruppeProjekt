@@ -148,7 +148,7 @@ public class Main {
 
     public Main(){
         // Users must be made before, as there should not be a function to add a user.
-        String[] ListOfInitials = {"HUBA", "ANNA"};
+        String[] ListOfInitials = {"HUBA", "ANDA", "ANNA"};
         for (String name : ListOfInitials){
             User newUser = new User(name);
             this.ListOfUsers.add(newUser);
@@ -169,7 +169,7 @@ public class Main {
     }
 
     // Check if user exists in preexisting list of users
-    private Boolean searchUser(String UserInitials){
+    public Boolean searchUser(String UserInitials){
         for (User searchUser : this.ListOfUsers){
             String searchUserInitials = searchUser.getName();
             if (searchUserInitials.equals(UserInitials)){
@@ -294,9 +294,19 @@ public class Main {
         Project project = this.getProject(projectname);
         User chosenUser = this.getUser(newProjectLeaderName);
 
+        if (chosenUser == null){
+            throw new OperationNotAllowed("Employee does not exist");
+        }
+
         // If project does not have a project leader or current user is project leader
-        if(!this.projectHasProjectLeader(projectname) || this.checkProjectLeader(projectname, this.currentUser.getName())) {
+        if((!this.projectHasProjectLeader(projectname) || this.checkProjectLeader(projectname, this.currentUser.getName()))) {
             project.setProjectLeader(chosenUser);
+        } else {
+
+            // If the project has a leader and current user is not project leader
+            if (this.projectHasProjectLeader(projectname) && !this.checkProjectLeader(projectname, this.currentUser.getName())){
+                throw new OperationNotAllowed("Project already has a project leader");
+            }
         }
     }
 
