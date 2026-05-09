@@ -12,6 +12,7 @@ Scenario: Delete a project successfully
 Scenario: Delete a project without being the project leader
 	Given the employee is logged in
 	And there exists a project with the name "Project32"
+	And the project has "ANDA" as  project leader
 	And the employee is not the project leader of the project
 	When the employee deletes the project
 	Then the error message "Employee is not the project leader" is given
