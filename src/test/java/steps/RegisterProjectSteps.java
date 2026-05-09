@@ -66,6 +66,6 @@ public class RegisterProjectSteps {
 
     @Then("the error message {string} is given")
     public void theErrorMessageIsGiven(String string) {
-        assertTrue(this.errorMessageHolder.getErrorMessage().equals(string));
+        assertTrue(this.errorMessageHolder.getErrorMessage().equals(string), "Received instead: " + this.errorMessageHolder.getErrorMessage());
     }
 }
