@@ -36,7 +36,11 @@ public class RemoveTimeSteps {
 
     @Given("the employee has registered {int} hours on the activity {string}")
     public void the_employee_has_registered_hours_on_the_activity(Integer hours, String activityName) {
-        this.project.registerTime(this.activity, hours, this.user);
+        try {
+            this.project.registerTime(this.activity, hours, this.user);
+        } catch (Exception e) {
+            fail("Unexpected exception: " + e.getMessage());
+        }
     }
 
     @When("the employee removes {int} hours from the activity {string}")
@@ -54,5 +58,16 @@ public class RemoveTimeSteps {
             fail("Expected exception but none was thrown");
         }
         assertEquals(message, this.thrownException.getMessage());
+    }
+
+    @Then("the system logs that {string} has used {int} hours on the activity {string}")
+    public void the_system_logs_that_has_used_hours_on_the_activity(String initials, Integer hours, String activityName) {
+        try {
+            assertEquals(initials, this.user.getName());
+            assertEquals(activityName, this.activity.getName());
+            assertEquals(hours.floatValue(), this.project.getRegisteredActivityTimeForUser(this.user, this.activity));
+        } catch (Exception e) {
+            fail("Unexpected exception: " + e.getMessage());
+        }
     }
 }
