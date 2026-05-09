@@ -10,10 +10,11 @@
         private ArrayList<Date> vacationDays;
 
         public User(String name) {
-            if (name == null || !name.matches("(?i)[a-z]{1,4}")) {
+            String normalizedName = normalizeInitials(name);
+            if (normalizedName == null || !normalizedName.matches("(?i)[a-z]{1,4}")) {
                 throw new IllegalArgumentException("Employee initials must be 1 to 4 letters");
             }
-            this.name = name;
+            this.name = normalizedName;
             this.vacationDays = new ArrayList<>();
         }
 
@@ -26,6 +27,10 @@
         }
 
         public void addVacationDate(Date date) throws Exception{
+            if (date == null || !date.isValid()) {
+                throw new Exception("Invalid vacation date");
+            }
+
             for (Date vacationDate : this.vacationDays) {
                 if (vacationDate.day == date.day && vacationDate.month == date.month && vacationDate.year == date.year) {
                     throw new Exception("Vacation day already registered");
@@ -35,6 +40,10 @@
         }
 
         public boolean hasVacationDateBetween(Date startDate, Date endDate) {
+            if (startDate == null || endDate == null || !startDate.isValid() || !endDate.isValid()) {
+                return false;
+            }
+
             for(Date vacationDate : this.vacationDays){
                 if(vacationDate.isBetween(startDate, endDate)){
                     return true;
@@ -44,6 +53,10 @@
         }
         
         public void removeVacationDate(Date date) throws Exception{
+            if (date == null || !date.isValid()) {
+                throw new Exception("Invalid vacation date");
+            }
+
             for (Date vacationDate : this.vacationDays) {
                 if (vacationDate.day == date.day && vacationDate.month == date.month && vacationDate.year == date.year) {
                     vacationDays.remove(vacationDate);
@@ -68,6 +81,13 @@
         @Override
         public int hashCode() {
             return this.name.toLowerCase(Locale.ROOT).hashCode();
+        }
+
+        private static String normalizeInitials(String name) {
+            if (name == null) {
+                return null;
+            }
+            return name.trim();
         }
     }
 

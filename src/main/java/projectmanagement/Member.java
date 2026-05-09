@@ -8,6 +8,9 @@ public class Member {
     private ArrayList<ActivityTime> activityTimes;
 
     Member(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("Employee does not exist");
+        }
         this.user = user;
         this.activityTimes = new ArrayList<>();
     }
@@ -21,6 +24,9 @@ public class Member {
     }
 
     public float getActivityTime(Activity activity) throws Exception {
+        if (activity == null) {
+            throw new Exception("No activity found");
+        }
         
         boolean foundActivity = false;
         // Search through all activities and update the time for the activity if it exists
@@ -37,7 +43,11 @@ public class Member {
         return 0.0f;
     }
 
-    public void recordActivityTime(Activity activity, float hours) {
+    public void recordActivityTime(Activity activity, float hours) throws Exception {
+        if (activity == null) {
+            throw new Exception("No activity found");
+        }
+        validateHours(hours);
         
         boolean foundActivity = false;
         
@@ -58,6 +68,10 @@ public class Member {
     }
 
     public void removeActivityTime(Activity activity, float hours) throws Exception{
+        if (activity == null) {
+            throw new Exception("No existing time logged on activity");
+        }
+        validateHours(hours);
 
         boolean foundActivity = false;
 
@@ -78,6 +92,12 @@ public class Member {
         
         if (!foundActivity) {
             throw new Exception("No existing time logged on activity");
+        }
+    }
+
+    private void validateHours(float hours) throws Exception {
+        if (!Float.isFinite(hours) || hours <= 0) {
+            throw new Exception("Hours must be greater than zero");
         }
     }
 }
