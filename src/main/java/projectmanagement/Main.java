@@ -294,7 +294,7 @@ public static void main(String[] args) {
         }
     }
 
-    private Project getProject(String projectname) {
+    public Project getProject(String projectname) {
         for (Project project : this.ListOfProjects) {
             String searchProjectName = project.getName();
             if (searchProjectName.equals(projectname)) {

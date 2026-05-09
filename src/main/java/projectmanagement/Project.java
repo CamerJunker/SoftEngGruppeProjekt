@@ -69,7 +69,7 @@ public class Project {
         return !member.getActivityTimes().isEmpty();
     }
 
-    public Activity createActivity(String name, int budgetedTime, Date startDate, Date endDate, boolean status) {
+    public Activity createActivity(String name, float budgetedTime, Date startDate, Date endDate, boolean status) {
         Activity activity = new Activity(name, budgetedTime, startDate, endDate, status);
         activityList.add(activity);
         return activity;
