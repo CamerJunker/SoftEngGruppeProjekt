@@ -8,8 +8,7 @@ public class Date {
     public int month;
     public int year;
 
-    public Date() {
-    }
+    public Date(){}
 
     public Date(int day, int month, int year) {
         this.day = day;
@@ -73,4 +72,37 @@ public class Date {
     private LocalDate toLocalDate() {
         return LocalDate.of(year, month, day);
     }
+
+    public String toString(){
+        String dayString = "";
+        String monthString = "";
+        String yearString = "";
+
+        if((""+this.day).length()<2){
+            dayString += "0"+this.day;
+        } else {
+            dayString += this.day;
+        }
+
+        if((""+this.month).length()<2){
+            monthString += "0"+this.month;
+        } else {
+            monthString += this.month;
+        }
+
+        if((""+this.year).length()<4){
+            int yearLength = (""+this.year).length();
+            if (yearLength == 1){
+                yearString += "200"+this.year;
+            } else if (yearLength == 2){
+                yearString += "20"+this.year;
+            } else {
+                yearString += "2"+this.year;
+            }
+        } else {
+            yearString += this.year;
+        }
+        return ""+dayString+"-"+monthString+"-"+yearString;
+    }
+
 }

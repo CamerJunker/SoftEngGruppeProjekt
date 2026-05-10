@@ -9,7 +9,7 @@ public class Activity {
     private boolean status;
     private ArrayList<Member> assignedUsers;
 
-    public Activity(String name, int budgetedTime, Date startDate, Date endDate, boolean status) {
+    public Activity(String name, float budgetedTime, Date startDate, Date endDate, boolean status) {
         String normalizedName = normalizeName(name);
         if (normalizedName == null) {
             throw new IllegalArgumentException("Activity name is required");

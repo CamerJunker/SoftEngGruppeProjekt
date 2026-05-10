@@ -75,7 +75,7 @@ public class Project {
         return !member.getActivityTimes().isEmpty();
     }
 
-    public Activity createActivity(String name, int budgetedTime, Date startDate, Date endDate, boolean status) {
+    public Activity createActivity(String name, float budgetedTime, Date startDate, Date endDate, boolean status) {
         Activity existingActivity = findActivityByName(name);
         if (existingActivity != null) {
             return existingActivity;
@@ -147,9 +147,13 @@ public class Project {
         member.removeActivityTime(activity, hours);
     }
 
-    public Report generateProjectReport(User user) {
-        if (projectLeader == null || user == null || !projectLeader.equals(user)) {
-            return null;
+    public Report generateProjectReport(User user) throws OperationNotAllowed {
+        if(!projectLeader.equals(user)){
+            throw new OperationNotAllowed("Employee is not the project leader");
+        }
+
+        if (projectLeader == null){
+            throw new OperationNotAllowed("Project has no project leader");
         }
 
         float totalBudgetedTime = 0;
@@ -181,7 +185,7 @@ public class Project {
         return null; // Not found
     }
 
-    private Activity findActivityByName(String name) {
+    public Activity findActivityByName(String name) {
         String normalizedName = normalizeName(name);
         if (normalizedName == null) {
             return null;
@@ -193,6 +197,16 @@ public class Project {
             }
         }
         return null;
+    }
+
+    public Boolean activityExists(String name) {
+        for (Activity activity : this.activityList){
+            String activityName = activity.getName();
+            if (activityName.equalsIgnoreCase(name)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void validateHours(float hours) throws Exception {

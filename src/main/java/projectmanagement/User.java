@@ -3,8 +3,6 @@
     import java.util.ArrayList;
     import java.util.Locale;
 
-    import projectmanagement.Date;
-
     public class User {
         private String name;
         private ArrayList<Date> vacationDays;
@@ -89,10 +87,17 @@
             }
             return name.trim();
         }
+
+        public String toStringVacationDays() throws OperationNotAllowed{
+
+            if(this.vacationDays.isEmpty()){
+                throw new OperationNotAllowed("User has no vacation days");
+            }
+
+            String vacationDaysString = "";
+            for (Date vacationDate : this.vacationDays){
+                vacationDaysString += vacationDate.toString()+"\n";
+            }
+            return vacationDaysString;
+        }
     }
-
-
-    // class ProjectLeader extends User {
-    // 
-    // }
-

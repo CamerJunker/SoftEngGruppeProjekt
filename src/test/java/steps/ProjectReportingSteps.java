@@ -5,6 +5,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import projectmanagement.Activity;
 import projectmanagement.Date;
+import projectmanagement.OperationNotAllowed;
 import projectmanagement.Project;
 import projectmanagement.Report;
 import projectmanagement.User;
@@ -15,9 +16,10 @@ public class ProjectReportingSteps {
     private Project project;
     private User user1;
     private Report report;
+    private ErrorMessageHolder errorMessageHolder;
 
-
-    public ProjectReportingSteps() {
+    public ProjectReportingSteps(ErrorMessageHolder errorMessageHolder) {
+        this.errorMessageHolder = errorMessageHolder;
         this.project = new Project("TestProject");
         this.user1 = new User("USER");
 
@@ -41,8 +43,12 @@ public class ProjectReportingSteps {
     @When("the project manager generates a report")
     public void theProjectManagerGeneratesAReport() {
         User projectManager = this.project.getProjectLeader();
-
-        this.report = this.project.generateProjectReport(projectManager);
+        
+        try {
+            this.report = this.project.generateProjectReport(projectManager);
+        } catch (OperationNotAllowed e) {
+            this.errorMessageHolder.setErrorMessage(e.getMessage());
+        }  
     }
 
     @Then("the system should display total time spent")
