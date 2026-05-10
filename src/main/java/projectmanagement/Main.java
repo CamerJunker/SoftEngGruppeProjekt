@@ -38,7 +38,7 @@ public static void main(String[] args) {
             System.out.println("1: See Projects");
             System.out.println("2: Make a new project");
             System.out.println("3: Select a project");
-            // System.out.println("4: Register vacation days");
+            System.out.println("4: Register vacation days");
 
             String projectOptions = scanner.nextLine();
 
@@ -100,32 +100,40 @@ public static void main(String[] args) {
                                 if (pmOptions.equals("1")) {
                                     System.out.println("Enter activity name");
                                     String activityName = scanner.nextLine();
-                                    System.out.println("Enter budgeted time");
-                                    int budgetedTime = scanner.nextInt();
-                                    System.out.println("Enter start day");
-                                    int startDay = scanner.nextInt();
-                                    System.out.println("Enter start month");
-                                    int startMonth = scanner.nextInt();
-                                    System.out.println("Enter start year");
-                                    int startYear = scanner.nextInt();
-                                    System.out.println("Enter end day");
-                                    int endDay = scanner.nextInt();
-                                    System.out.println("Enter end month");
-                                    int endMonth = scanner.nextInt();
-                                    System.out.println("Enter end year");
-                                    int endYear = scanner.nextInt();
-                                    scanner.nextLine();
-                                    Date startDate = new Date(startDay, startMonth, startYear);
-                                    Date endDate = new Date(endDay, endMonth, endYear);
-                                    project.createActivity(activityName,budgetedTime,startDate,endDate,true);
-                                    System.out.println(activityName + " has been created");
+                                    try {
+                                        System.out.println("Enter budgeted time");
+                                        int budgetedTime = readInt(scanner);
+                                        System.out.println("Enter start day");
+                                        int startDay = readInt(scanner);
+                                        System.out.println("Enter start month");
+                                        int startMonth = readInt(scanner);
+                                        System.out.println("Enter start year");
+                                        int startYear = readInt(scanner);
+                                        System.out.println("Enter end day");
+                                        int endDay = readInt(scanner);
+                                        System.out.println("Enter end month");
+                                        int endMonth = readInt(scanner);
+                                        System.out.println("Enter end year");
+                                        int endYear = readInt(scanner);
+                                        Date startDate = new Date(startDay, startMonth, startYear);
+                                        Date endDate = new Date(endDay, endMonth, endYear);
+                                        project.createActivity(activityName,budgetedTime,startDate,endDate,true);
+                                        System.out.println(activityName + " has been created");
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage());
+                                    }
                                     } else if (pmOptions.equals("2")) {
                                     System.out.println("Enter the activity name");
                                     String activityName = scanner.nextLine();
-                                    System.out.println("Enter hours spent in decimal");
-                                    float hoursSpent = scanner.nextFloat();
-                                    scanner.nextLine();
-                                                                    
+                                    float hoursSpent;
+                                    try {
+                                        System.out.println("Enter hours spent in decimal");
+                                        hoursSpent = readFloat(scanner);
+                                    } catch (OperationNotAllowed e) {
+                                        System.out.println(e.getMessage());
+                                        continue;
+                                    }
+
                                     boolean activityExists = false;
                                     for (Activity activity : project.getActivityList()) {
                                         if (activity.getName().equalsIgnoreCase(activityName)) {
@@ -145,9 +153,14 @@ public static void main(String[] args) {
                                 } else if (pmOptions.equals("3")) {
                                     System.out.println("Enter activity name");
                                     String activityName = scanner.nextLine();
-                                    System.out.println("Enter time to be removed");
-                                    float hours = scanner.nextFloat();
-                                    scanner.nextLine();
+                                    float hours;
+                                    try {
+                                        System.out.println("Enter time to be removed");
+                                        hours = readFloat(scanner);
+                                    } catch (OperationNotAllowed e) {
+                                        System.out.println(e.getMessage());
+                                        continue;
+                                    }
                                     boolean activityExists = false;
                                     for (Activity activity : project.getActivityList()) {
                                         if (activity.getName().equalsIgnoreCase(activityName)) {
@@ -218,7 +231,7 @@ public static void main(String[] args) {
                                             System.out.println(e.getMessage());
                                         }
                                     }
-                                } else if (pmOptions.equals("9")) {
+                                } else if (pmOptions.equals("0")) {
                                     projectMenu = false;
                                 } else {
                                     System.out.println(pmOptions + " does not exist as an option");
@@ -226,7 +239,7 @@ public static void main(String[] args) {
                             } else {
                                 System.out.println(project.getProjectLeader().getName() + " is the current project leader");
                                 boolean isCurrentUserProjectLeader;
-                                if(project.getProjectLeader().getName().equals(app.currentUser.getName())){
+                                if(project.getProjectLeader().getName().equalsIgnoreCase(app.currentUser.getName())){
                                     isCurrentUserProjectLeader = true;
                                 } else {
                                     isCurrentUserProjectLeader = false;
@@ -238,7 +251,7 @@ public static void main(String[] args) {
                                 System.out.println("3: Assign user to an activity");
                                 System.out.println("4: Create new activity");
                                 System.out.println("5: Register finished activity");
-                                System.out.println("6: Select a project manager");
+                                System.out.println("6: Select a new project leader");
                                 System.out.println("7: Edit project");
                                 System.out.println("8: Delete project");
                                 System.out.println("9: Get report");
@@ -251,9 +264,14 @@ public static void main(String[] args) {
                                     case "1": {
                                         System.out.println("Enter the activity name");
                                         String activityName = scanner.nextLine();
-                                        System.out.println("Enter hours spent in decimal");
-                                        float hoursSpent = scanner.nextFloat();
-                                        scanner.nextLine();
+                                        float hoursSpent;
+                                        try {
+                                            System.out.println("Enter hours spent in decimal");
+                                            hoursSpent = readFloat(scanner);
+                                        } catch (OperationNotAllowed e) {
+                                            System.out.println(e.getMessage());
+                                            break;
+                                        }
 
                                         boolean activityExists = false;
                                         for(Activity activity : project.getActivityList()){
@@ -278,9 +296,14 @@ public static void main(String[] args) {
                                     case "2": {
                                         System.out.println("Enter activity name");
                                         String activityName = scanner.nextLine();
-                                        System.out.println("Enter time to be removed");
-                                        float hours = scanner.nextFloat();
-                                        scanner.nextLine();
+                                        float hours;
+                                        try {
+                                            System.out.println("Enter time to be removed");
+                                            hours = readFloat(scanner);
+                                        } catch (OperationNotAllowed e) {
+                                            System.out.println(e.getMessage());
+                                            break;
+                                        }
 
                                         boolean activityExists = false;
                                         for(Activity activity : project.getActivityList()){
@@ -309,21 +332,35 @@ public static void main(String[] args) {
                                             System.out.println("Enter initials of user to be assigned");
                                             String initials = scanner.nextLine();
 
+                                            Activity foundActivity = null;
+
                                             for(Activity activity : project.getActivityList()){
                                                 if(activity.getName().equalsIgnoreCase(activityName)){
-                                                    for(Member mem : project.getRegisteredMembers()){
-                                                        if(mem.getUser().getName().equalsIgnoreCase(initials)){
-                                                            try {
-                                                                activity.assignUser(mem);
-                                                                System.out.println(initials + " has been assigned to " + activityName);
-                                                            } catch (Exception e) {
-                                                                System.out.println(e.getMessage());
-                                                            }
-                                                        }
-                                                    }
+                                                    foundActivity = activity;
                                                     break;
-                                                } else {
-                                                    System.out.println("Activity does not exist");
+                                                }
+                                            }
+
+                                            if(foundActivity == null){
+                                                System.out.println("Activity does not exist");
+                                            } else {
+                                                boolean memberExists = false;
+
+                                                for(Member mem : project.getRegisteredMembers()){
+                                                    if(mem.getUser().getName().equalsIgnoreCase(initials)){
+                                                        try {
+                                                            foundActivity.assignUser(mem);
+                                                            System.out.println(initials + " has been assigned to " + activityName);
+                                                        } catch (Exception e) {
+                                                            System.out.println(e.getMessage());
+                                                        }
+                                                        memberExists = true;
+                                                        break;
+                                                    }
+                                                }
+
+                                                if(!memberExists){
+                                                    System.out.println("User is not registered on this project");
                                                 }
                                             }
                                         } else {
@@ -334,7 +371,32 @@ public static void main(String[] args) {
 
                                     case "4": {
                                         if(isCurrentUserProjectLeader){
+                                            System.out.println("Enter activity name");
+                                            String activityName = scanner.nextLine();
+                                            try {
+                                                System.out.println("Enter budgeted time");
+                                                int budgetedTime = readInt(scanner);
+                                                System.out.println("Enter start day");
+                                                int startDay = readInt(scanner);
+                                                System.out.println("Enter start month");
+                                                int startMonth = readInt(scanner);
+                                                System.out.println("Enter start year");
+                                                int startYear = readInt(scanner);
+                                                System.out.println("Enter end day");
+                                                int endDay = readInt(scanner);
+                                                System.out.println("Enter end month");
+                                                int endMonth = readInt(scanner);
+                                                System.out.println("Enter end year");
+                                                int endYear = readInt(scanner);
 
+                                                Date startDate = new Date(startDay, startMonth, startYear);
+                                                Date endDate = new Date(endDay, endMonth, endYear);
+
+                                                project.createActivity(activityName,budgetedTime,startDate,endDate,true);
+                                                System.out.println(activityName + " has been created");
+                                            } catch (Exception e) {
+                                                System.out.println(e.getMessage());
+                                            }
                                         } else {
                                             System.out.println(pmOption + " does not exist as an option");
                                         }
@@ -343,7 +405,21 @@ public static void main(String[] args) {
 
                                     case "5": {
                                         if(isCurrentUserProjectLeader){
+                                            System.out.println("Enter the activity name");
+                                            String activityName = scanner.nextLine();
+                                            boolean activityExists = false;
+                                            for (Activity activity : project.getActivityList()) {
+                                                if (activity.getName().equalsIgnoreCase(activityName)) {
+                                                    activity.setStatus(false);
+                                                    System.out.println(activity.getName() + " is now inactive");
+                                                    activityExists = true;
+                                                    break;
+                                                }
+                                            }
 
+                                            if (!activityExists) {
+                                                System.out.println("Activity does not exist");
+                                            }
                                         } else {
                                             System.out.println(pmOption + " does not exist as an option");
                                         }
@@ -352,7 +428,15 @@ public static void main(String[] args) {
 
                                     case "6": {
                                         if(isCurrentUserProjectLeader){
-
+                                            System.out.println("Enter the initials of the new project leader");
+                                            String userInitials = scanner.nextLine();
+                                            try {
+                                                app.setProjectLeader(project.getName(), userInitials);
+                                                System.out.println(userInitials + " is now project leader");
+                                                projectHasLeader = true;
+                                            } catch (OperationNotAllowed e) {
+                                                System.out.println(e.getMessage());
+                                            }
                                         } else {
                                             System.out.println(pmOption + " does not exist as an option");
                                         }
@@ -361,7 +445,16 @@ public static void main(String[] args) {
 
                                     case "7": {
                                         if(isCurrentUserProjectLeader){
+                                            System.out.println("Enter the new name for the project");
+                                            String newName = scanner.nextLine();
 
+                                            try {
+                                                app.editProjectName(project.getName(), newName);
+                                                project = app.getProject(newName);
+                                                System.out.println("Project name changed to " + newName);
+                                            } catch (OperationNotAllowed e) {
+                                                System.out.println(e.getMessage());
+                                            }
                                         } else {
                                             System.out.println(pmOption + " does not exist as an option");
                                         }
@@ -370,7 +463,19 @@ public static void main(String[] args) {
 
                                     case "8": {
                                         if(isCurrentUserProjectLeader){
-
+                                            System.out.println("Deleting the project is an irreversible action");
+                                            System.out.println("Enter Y if you wish to delete");
+                                            String decision = scanner.nextLine();
+                                            if (decision.equalsIgnoreCase("Y")) {
+                                                try {
+                                                    String deletedProjectName = project.getName();
+                                                    app.deleteProject(project.getName());
+                                                    System.out.println(deletedProjectName + " has been deleted");
+                                                    projectMenu = false;
+                                                } catch (OperationNotAllowed e) {
+                                                    System.out.println(e.getMessage());
+                                                }
+                                            }
                                         } else {
                                             System.out.println(pmOption + " does not exist as an option");
                                         }
@@ -378,11 +483,28 @@ public static void main(String[] args) {
                                     }
 
                                     case "9": {
+                                        if(isCurrentUserProjectLeader){
+                                            Report report = project.generateProjectReport(app.currentUser);
 
+                                            System.out.println("Hours used: " + report.getHoursUsed());
+                                            System.out.println("Budgeted time: " + report.getBudgedtedTime());
+
+                                            if(report.getHoursUsed() > report.getBudgedtedTime()){
+                                                System.out.println("The project is over budget by " + (report.getHoursUsed() - report.getBudgedtedTime()) + " hours");
+                                            } else if(report.getHoursUsed() < report.getBudgedtedTime()){
+                                                System.out.println("The project is under budget by " + (report.getBudgedtedTime() - report.getHoursUsed()) + " hours");
+                                            } else {
+                                                System.out.println("The project is exactly on budget");
+                                            }
+                                        } else {
+                                            System.out.println(pmOption+" does not exist as an option");
+                                        }
+                                        break;
                                     }
 
                                     case "0": {
                                         projectMenu = false;
+                                        break;
                                     }
 
                                     default: {
@@ -399,17 +521,15 @@ public static void main(String[] args) {
                 }
 
             } else if(projectOptions.equals("4")){
-                System.out.println("Enter vacation day");
-                int vacationDay = scanner.nextInt();
-                System.out.println("Enter vacation month");
-                int vacationMonth = scanner.nextInt();
-                System.out.println("Enter vacation year");
-                int vacationYear = scanner.nextInt();
-                scanner.nextLine();
-
-                Date vacationDate = new Date(vacationDay,vacationMonth,vacationYear);
-
                 try {
+                    System.out.println("Enter vacation day");
+                    int vacationDay = readInt(scanner);
+                    System.out.println("Enter vacation month");
+                    int vacationMonth = readInt(scanner);
+                    System.out.println("Enter vacation year");
+                    int vacationYear = readInt(scanner);
+
+                    Date vacationDate = new Date(vacationDay,vacationMonth,vacationYear);
                     app.currentUser.addVacationDate(vacationDate);
                     System.out.println("Vacation day has been registered");
                 } catch (Exception e) {
@@ -438,9 +558,10 @@ public static void main(String[] args) {
     }
 
     public void loginUser(String initials) throws OperationNotAllowed {
-        if (searchUser(initials)){
+        String normalizedInitials = normalizeName(initials);
+        if (searchUser(normalizedInitials)){
             this.UserLoggedInFlag = true;
-            this.currentUser = this.getUser(initials); 
+            this.currentUser = this.getUser(normalizedInitials);
         } else {
             throw new OperationNotAllowed("User does not exist");
         }
@@ -448,9 +569,14 @@ public static void main(String[] args) {
 
     // Check if user exists in preexisting list of users
     public Boolean searchUser(String UserInitials){
+        String normalizedInitials = normalizeName(UserInitials);
+        if (normalizedInitials == null) {
+            return false;
+        }
+
         for (User searchUser : this.ListOfUsers){
             String searchUserInitials = searchUser.getName();
-            if (searchUserInitials.equalsIgnoreCase(UserInitials)){
+            if (searchUserInitials.equalsIgnoreCase(normalizedInitials)){
                 return true;
             }
         }
@@ -459,9 +585,14 @@ public static void main(String[] args) {
 
     // Get User as object, search by initials
     private User getUser(String UserInitials){
+        String normalizedInitials = normalizeName(UserInitials);
+        if (normalizedInitials == null) {
+            return null;
+        }
+
         for (User searchUser : this.ListOfUsers){
             String searchUserInitials = searchUser.getName();
-            if (searchUserInitials.equalsIgnoreCase(UserInitials)){
+            if (searchUserInitials.equalsIgnoreCase(normalizedInitials)){
                 return searchUser;
             }
         }
@@ -471,8 +602,13 @@ public static void main(String[] args) {
 
     
     public void NewProject(String projectname) throws OperationNotAllowed{
-        if (!this.searchProject(projectname)){
-            Project newProject = new Project(projectname);
+        String normalizedProjectName = normalizeName(projectname);
+        if (normalizedProjectName == null) {
+            throw new OperationNotAllowed("Project name is required");
+        }
+
+        if (!this.searchProject(normalizedProjectName)){
+            Project newProject = new Project(normalizedProjectName);
             this.ListOfProjects.add(newProject);
         } else {
             throw new OperationNotAllowed("Project name already exists");
@@ -480,9 +616,14 @@ public static void main(String[] args) {
     }
 
     private Project getProject(String projectname) {
+        String normalizedProjectName = normalizeName(projectname);
+        if (normalizedProjectName == null) {
+            return null;
+        }
+
         for (Project project : this.ListOfProjects) {
             String searchProjectName = project.getName();
-            if (searchProjectName.equals(projectname)) {
+            if (searchProjectName.equalsIgnoreCase(normalizedProjectName)) {
                 return project;
             }
         }
@@ -491,14 +632,21 @@ public static void main(String[] args) {
 
     public Boolean checkProjectLeader(String projectname, String username) throws OperationNotAllowed {
         Project project = this.getProject(projectname);
+        if (project == null) {
+            throw new OperationNotAllowed("Project does not exist");
+        }
+
         User user = this.getUser(username);
-        User projectLeader = project.getProjectLeader();
+        if (user == null) {
+            return false;
+        }
 
         // If there is not already a project leader
         if (!this.projectHasProjectLeader(projectname)){
             return false;
         }
 
+        User projectLeader = project.getProjectLeader();
         if (projectLeader.equals(user)){
             return true;
         }
@@ -511,20 +659,24 @@ public static void main(String[] args) {
         }
 
         if (!this.projectHasProjectLeader(projectname) || 
-        this.checkProjectLeader(projectname, this.currentUser.getName())){                                                                   // 3
+        isCurrentUserProjectLeader(projectname)){                                                                   // 3
             Project project = this.getProject(projectname);                                                  // 4
             this.ListOfProjects.remove(project);                                                      // 5
-        } else if (!this.checkProjectLeader(projectname, 
-            this.currentUser.getName())){                                                               // 6
+        } else if (!isCurrentUserProjectLeader(projectname)){                                                               // 6
             throw new OperationNotAllowed("Employee is not the project leader");                                               // 7
         }
     }
 
     public Boolean searchProject(String projectname) {
+        String normalizedProjectName = normalizeName(projectname);
+        if (normalizedProjectName == null) {
+            return false;
+        }
+
         for (Project project : this.ListOfProjects){
             String searchProjectName = project.getName();
 
-            if (searchProjectName.equals(projectname)){
+            if (searchProjectName.equalsIgnoreCase(normalizedProjectName)){
                 return true;
             }
         }
@@ -532,27 +684,33 @@ public static void main(String[] args) {
     }
 
     public void editProjectName(String oldName, String newName) throws OperationNotAllowed {
+        String normalizedOldName = normalizeName(oldName);
+        String normalizedNewName = normalizeName(newName);
+        if (normalizedNewName == null) {
+            throw new OperationNotAllowed("Project name is required");
+        }
+
         // If project exists and the new name does not already exist
-        if (this.searchProject(oldName) && !this.searchProject(newName)){
-            Project project = this.getProject(oldName);
+        if (this.searchProject(normalizedOldName) && !this.searchProject(normalizedNewName)){
+            Project project = this.getProject(normalizedOldName);
 
             // If project has no project leader
             if (!this.projectHasProjectLeader(project.getName())){
-                project.editProjectName(newName);
+                project.editProjectName(normalizedNewName);
 
             // If current user is project leader
-            } else if (this.checkProjectLeader(project.getName(), this.currentUser.getName())) {
-                project.editProjectName(newName);
+            } else if (isCurrentUserProjectLeader(project.getName())) {
+                project.editProjectName(normalizedNewName);
             } else {
                 throw new OperationNotAllowed("Employee is not the project leader");
             }
 
         } else {
-            if (!this.searchProject(oldName)){
+            if (!this.searchProject(normalizedOldName)){
                 throw new OperationNotAllowed("Project does not exist");
             }
 
-            if (this.searchProject(newName)) {
+            if (this.searchProject(normalizedNewName)) {
                 throw new OperationNotAllowed("Duplicate project name");
             }
         }
@@ -572,6 +730,10 @@ public static void main(String[] args) {
 
     public void setProjectLeader(String projectname, String newProjectLeaderName) throws OperationNotAllowed{
         Project project = this.getProject(projectname);
+        if (project == null) {
+            throw new OperationNotAllowed("Project does not exist");
+        }
+
         User chosenUser = this.getUser(newProjectLeaderName);
 
         if (chosenUser == null){
@@ -579,12 +741,12 @@ public static void main(String[] args) {
         }
 
         // If project does not have a project leader or current user is project leader
-        if((!this.projectHasProjectLeader(projectname) || this.checkProjectLeader(projectname, this.currentUser.getName()))) {
+        if((!this.projectHasProjectLeader(projectname) || isCurrentUserProjectLeader(projectname))) {
             project.setProjectLeader(chosenUser);
         } else {
 
             // If the project has a leader and current user is not project leader
-            if (this.projectHasProjectLeader(projectname) && !this.checkProjectLeader(projectname, this.currentUser.getName())){
+            if (this.projectHasProjectLeader(projectname) && !isCurrentUserProjectLeader(projectname)){
                 throw new OperationNotAllowed("Project already has a project leader");
             }
         }
@@ -592,15 +754,19 @@ public static void main(String[] args) {
 
     public void removeProjectLeader(String projectname) throws OperationNotAllowed {
         Project project = this.getProject(projectname);
+        if (project == null) {
+            throw new OperationNotAllowed("Project does not exist");
+        }
+
         // If the project has a project leader and current user is project leader
-        if (this.projectHasProjectLeader(projectname) && this.checkProjectLeader(projectname, this.currentUser.getName())){
+        if (this.projectHasProjectLeader(projectname) && isCurrentUserProjectLeader(projectname)){
             project.removeProjectLeader();
         } else {
             if (!this.projectHasProjectLeader(projectname)){
                 throw new OperationNotAllowed("Cannot remove project leader when no project leader is assigned");
             }
 
-            if (!this.checkProjectLeader(projectname, this.currentUser.getName())){
+            if (!isCurrentUserProjectLeader(projectname)){
                 throw new OperationNotAllowed("Employee is not the project manager");
             }
         }
@@ -614,6 +780,44 @@ public static void main(String[] args) {
         } else {
             return "";
         }
+    }
+
+    private boolean isCurrentUserProjectLeader(String projectname) throws OperationNotAllowed {
+        return this.currentUser != null && this.checkProjectLeader(projectname, this.currentUser.getName());
+    }
+
+    private static int readInt(Scanner scanner) throws OperationNotAllowed {
+        String input = scanner.nextLine().trim();
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new OperationNotAllowed("Invalid number");
+        }
+    }
+
+    private static float readFloat(Scanner scanner) throws OperationNotAllowed {
+        String input = scanner.nextLine().trim();
+        try {
+            float value = Float.parseFloat(input);
+            if (!Float.isFinite(value)) {
+                throw new NumberFormatException("Non-finite number");
+            }
+            return value;
+        } catch (NumberFormatException e) {
+            throw new OperationNotAllowed("Invalid number");
+        }
+    }
+
+    private static String normalizeName(String name) {
+        if (name == null) {
+            return null;
+        }
+
+        String trimmedName = name.trim();
+        if (trimmedName.isEmpty()) {
+            return null;
+        }
+        return trimmedName;
     }
 }
 

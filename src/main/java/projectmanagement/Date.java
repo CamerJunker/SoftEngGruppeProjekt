@@ -1,5 +1,8 @@
 package projectmanagement;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+
 public class Date {
     public int day;
     public int month;
@@ -12,9 +15,18 @@ public class Date {
         this.day = day;
         this.month = month;
         this.year = year;
+        validate();
     }
 
     public boolean isBetween(Date startDate, Date endDate) {
+        if (!isValid() || startDate == null || endDate == null || !startDate.isValid() || !endDate.isValid()) {
+            return false;
+        }
+
+        if (startDate.isAfter(endDate)) {
+            return false;
+        }
+
         if(this.year < startDate.year || this.year > endDate.year){
             return false;
         }
@@ -36,5 +48,29 @@ public class Date {
         }
 
         return true;
+    }
+
+    public boolean isValid() {
+        try {
+            toLocalDate();
+            return true;
+        } catch (DateTimeException e) {
+            return false;
+        }
+    }
+
+    public boolean isAfter(Date other) {
+        if (other == null || !this.isValid() || !other.isValid()) {
+            return false;
+        }
+        return this.toLocalDate().isAfter(other.toLocalDate());
+    }
+
+    private void validate() {
+        toLocalDate();
+    }
+
+    private LocalDate toLocalDate() {
+        return LocalDate.of(year, month, day);
     }
 }
