@@ -230,8 +230,7 @@ static Boolean[] noProjectLeaderProjectMenu(Scanner scanner, Main app, Project p
     System.out.println("0: Go back");
     String pmOptions = scanner.nextLine();
     System.out.print("\033[H\033[2J");
-
-    // TODO: add function to check if any activity exists at all, if there are none, give a message then exit to this menu.
+    
     if (pmOptions.equals("1")) {
         // no project leader create new activity option
         noProjectLeaderCreateNewActivityOption(scanner, project);
