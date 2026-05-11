@@ -1,3 +1,4 @@
+// Mob driven by Alexander van Steenwijk, edited by Alexander Grewal, Ruth Andersen
 package projectmanagement;
 
 import java.util.ArrayList;
@@ -236,7 +237,7 @@ public class Project {
     }
 }
 
-
+// Alexander van Steenwijk
 // Stores hours for an activty
 class ActivityTime {
     private Activity activity;
