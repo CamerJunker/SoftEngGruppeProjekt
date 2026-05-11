@@ -1,4 +1,5 @@
 package steps;
+// Ruth Andersen
 
 public class ProjectInfoHolder {
     private String ProjectName = "";

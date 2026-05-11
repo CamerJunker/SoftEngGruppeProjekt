@@ -11,6 +11,9 @@ import projectmanagement.Date;
 import projectmanagement.Project;
 import projectmanagement.User;
 
+//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////   Whole file written by Alexander Grewal   //////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 public class RegisterTimeSteps {
 
     private Project project;
@@ -18,10 +21,11 @@ public class RegisterTimeSteps {
     private Activity activity;
     private Exception thrownException;
 
+    // by Alexander Grewal
     public RegisterTimeSteps() {
         this.project = new Project("TestProject");
     }
-
+    
     @Given("an employee with initials {string}")
     public void anEmployeeWithInitials(String initials) {
         this.user = new User(initials);
