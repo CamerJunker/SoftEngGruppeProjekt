@@ -73,7 +73,7 @@ public class Date {
     private LocalDate toLocalDate() {
         return LocalDate.of(year, month, day);
     }
-    // Ruth
+    // Ruth Andersen
     public String toString(){
         String dayString = "";
         String monthString = "";
