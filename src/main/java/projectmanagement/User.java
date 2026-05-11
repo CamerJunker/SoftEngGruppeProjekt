@@ -89,6 +89,7 @@ public class User {
         return name.trim();
     }
 
+    // Ruth Andersen
     public String toStringVacationDays() throws OperationNotAllowed{
 
         if(this.vacationDays.isEmpty()){
