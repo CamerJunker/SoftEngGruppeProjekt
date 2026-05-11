@@ -1,4 +1,4 @@
-package steps;
+package projectmanagement;
 // Ruth Andersen
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
