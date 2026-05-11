@@ -1005,6 +1005,28 @@ public static void main(String[] args) {
         }
     }
 
+    public void editProjectLeader(String projectname, String newProjectLeaderName) throws OperationNotAllowed {
+        Project project = this.getProject(projectname);
+        if (project == null) {
+            throw new OperationNotAllowed("Project does not exist");
+        }
+
+        User chosenUser = this.getUser(newProjectLeaderName);
+        if (chosenUser == null) {
+            throw new OperationNotAllowed("Employee does not exist");
+        }
+
+        if (!this.projectHasProjectLeader(projectname)) {
+            throw new OperationNotAllowed("Cannot edit project leader when no project leader is assigned");
+        }
+
+        if (!isCurrentUserProjectLeader(projectname)) {
+            throw new OperationNotAllowed("Employee is not the project leader");
+        }
+
+        project.setProjectLeader(chosenUser);
+    }
+
     public void removeProjectLeader(String projectname) throws OperationNotAllowed {
         Project project = this.getProject(projectname);
         if (project == null) {

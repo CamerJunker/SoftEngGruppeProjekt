@@ -23,7 +23,9 @@ public class RegisterProjectSteps {
 
     @Given("the employee is logged in")
     public void theEmployeeIsLoggedIn() {
-        this.employeeInfoHolder.setName("HUBA");
+        if (this.employeeInfoHolder.getName().isEmpty()) {
+            this.employeeInfoHolder.setName("HUBA");
+        }
         try {
             this.app.loginUser(this.employeeInfoHolder.getName());
             assertTrue(this.app.CheckUserLoggedIn());

@@ -51,7 +51,7 @@ public class EditAssignedProjectLeader {
     @When("the employee edits the assigned project leader to {string}")
     public void theEmployeeEditsTheAssignedProjectLeaderTo(String initials) {
         try {
-            this.app.setProjectLeader(this.projectInfoHolder.getProjectName(), initials);
+            this.app.editProjectLeader(this.projectInfoHolder.getProjectName(), initials);
         } catch (Exception e) {
             this.errorMessageHolder.setErrorMessage(e.getMessage());
         }
