@@ -3,6 +3,7 @@ package projectmanagement;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
+// Abdellah El Ghazzaz
 public class Date {
     public int day;
     public int month;
@@ -72,7 +73,7 @@ public class Date {
     private LocalDate toLocalDate() {
         return LocalDate.of(year, month, day);
     }
-
+    // Ruth
     public String toString(){
         String dayString = "";
         String monthString = "";
