@@ -113,26 +113,26 @@ public class Project {
 
     // Register time done on an actity in hours
     public void registerTime(Activity activity, float hours, User user) throws Exception {
-        if (activity == null || !activityList.contains(activity)) {
-            throw new Exception("No activity found");
+        if (activity == null || !activityList.contains(activity)) { // 1
+            throw new Exception("No activity found"); // 2
         }
-        validateHours(hours);
-        if (user == null) {
-            throw new Exception("User not assigned to project");
-        }
-
-        if(user.hasVacationDateBetween(activity.getStartDate(), activity.getEndDate())){
-            throw new Exception("Cannot register time during vacation period");
+        validateHours(hours); // 3
+        if (user == null) { // 4
+            throw new Exception("User not assigned to project"); // 5
         }
 
-        Member member = findMemberByUser(user);
-
-        if(member == null){
-            member = new Member(user);
-            registeredMembers.add(member);
+        if(user.hasVacationDateBetween(activity.getStartDate(), activity.getEndDate())){ // 6
+            throw new Exception("Cannot register time during vacation period"); // 7
         }
 
-        member.recordActivityTime(activity, hours);
+        Member member = findMemberByUser(user); // 8
+
+        if(member == null){ // 9
+            member = new Member(user); // 10
+            registeredMembers.add(member); // 11
+        }
+
+        member.recordActivityTime(activity, hours); // 12
     }
 
     public void removeActivityTime(User user, Activity activity, float hours) throws Exception {

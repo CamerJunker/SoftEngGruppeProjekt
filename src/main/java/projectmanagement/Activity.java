@@ -61,16 +61,16 @@ public class Activity {
     }
 
     public void assignUser(Member newMember) throws Exception{
-        if (newMember == null || newMember.getUser() == null) {
-            throw new Exception("Employee does not exist");
+        if (newMember == null || newMember.getUser() == null) { // 1
+            throw new Exception("Employee does not exist"); // 2
         }
 
-        for (Member member : assignedUsers){
-            if(member.getUser().equals(newMember.getUser())){
-                throw new Exception("Employee already assigned");
+        for (Member member : assignedUsers){ // 3
+            if(member.getUser().equals(newMember.getUser())){ // 4
+                throw new Exception("Employee already assigned"); // 5
             }
         }
-        assignedUsers.add(newMember);
+        assignedUsers.add(newMember); // 6
     }
 
     private static String normalizeName(String name) {

@@ -26,16 +26,16 @@ public class User {
     }
 
     public void addVacationDate(Date date) throws Exception{
-        if (date == null || !date.isValid()) {
-            throw new Exception("Invalid vacation date");
+        if (date == null || !date.isValid()) { // 1
+            throw new Exception("Invalid vacation date"); // 2
         }
 
-        for (Date vacationDate : this.vacationDays) {
-            if (vacationDate.day == date.day && vacationDate.month == date.month && vacationDate.year == date.year) {
-                throw new Exception("Vacation day already registered");
+        for (Date vacationDate : this.vacationDays) { // 3
+            if (vacationDate.day == date.day && vacationDate.month == date.month && vacationDate.year == date.year) { // 4
+                throw new Exception("Vacation day already registered"); // 5
             }
         }
-        vacationDays.add(date);
+        vacationDays.add(date); // 6
     }
 
     public boolean hasVacationDateBetween(Date startDate, Date endDate) {
@@ -52,17 +52,17 @@ public class User {
     }
     
     public void removeVacationDate(Date date) throws Exception{
-        if (date == null || !date.isValid()) {
-            throw new Exception("Invalid vacation date");
+        if (date == null || !date.isValid()) { // 1
+            throw new Exception("Invalid vacation date"); // 2
         }
 
-        for (Date vacationDate : this.vacationDays) {
-            if (vacationDate.day == date.day && vacationDate.month == date.month && vacationDate.year == date.year) {
-                vacationDays.remove(vacationDate);
-                return;
+        for (Date vacationDate : this.vacationDays) { // 3
+            if (vacationDate.day == date.day && vacationDate.month == date.month && vacationDate.year == date.year) { // 4
+                vacationDays.remove(vacationDate); // 5
+                return; // 6
             }
         }
-        throw new Exception("Vacation day not registered");
+        throw new Exception("Vacation day not registered"); // 7
     }
 
     @Override

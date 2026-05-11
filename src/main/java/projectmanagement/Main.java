@@ -907,16 +907,16 @@ public static void main(String[] args) {
     }
 
     public void deleteProject(String projectname) throws OperationNotAllowed {
-        if(!this.searchProject(projectname)){                               // 1
-            throw new OperationNotAllowed("Project does not exist");                                                        // 2
+        if(!this.searchProject(projectname)){ // 1
+            throw new OperationNotAllowed("Project does not exist"); // 2
         }
 
         if (!this.projectHasProjectLeader(projectname) || 
-        isCurrentUserProjectLeader(projectname)){                                                                   // 3
-            Project project = this.getProject(projectname);                                                  // 4
-            this.ListOfProjects.remove(project);                                                      // 5
-        } else if (!isCurrentUserProjectLeader(projectname)){                                                               // 6
-            throw new OperationNotAllowed("Employee is not the project leader");                                               // 7
+        isCurrentUserProjectLeader(projectname)){ // 3
+            Project project = this.getProject(projectname); // 4
+            this.ListOfProjects.remove(project); // 5
+        } else if (!isCurrentUserProjectLeader(projectname)){ // 6
+            throw new OperationNotAllowed("Employee is not the project leader"); // 7
         }
     }
 
