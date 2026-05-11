@@ -1,6 +1,8 @@
 package projectmanagement;
 import java.util.ArrayList;
 
+// Mob driven in the beginning
+// Alexander Van Steenwijk
 public class Activity {
     private String name;
     private float budgetedTime;
@@ -48,10 +50,13 @@ public class Activity {
     public boolean getStatus() {
         return this.status;
     }
+    
+    // Ruth Andersen
     public void setStatus(boolean status) {
         this.status = status;
     }
 
+    // Alexander Van Steenwijk
     public void setBudgetedTime(float budgetedTime) {
         this.budgetedTime = budgetedTime;
     }
