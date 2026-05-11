@@ -9,6 +9,7 @@ public class Main {
     private ArrayList<User> ListOfUsers = new ArrayList<>();
     private ArrayList<Project> ListOfProjects = new ArrayList<>();
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static String showMainMenu(Scanner scanner){
     System.out.println("MAIN MENU");
     System.out.println("Choose your next action:");
@@ -24,6 +25,7 @@ static String showMainMenu(Scanner scanner){
     return projectOptions;
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 // Main menu options
 static void seeProjectsOption(Main app){
     if (app.ListOfProjects.isEmpty()) {
@@ -35,6 +37,7 @@ static void seeProjectsOption(Main app){
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static void makeNewProjectOption(Scanner scanner, Main app){
     System.out.println("Enter the name of your new project");
     String newProjectName = scanner.nextLine();
@@ -48,6 +51,7 @@ static void makeNewProjectOption(Scanner scanner, Main app){
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static void selectAProjectOption(Scanner scanner, Main app){
     if (app.ListOfProjects.isEmpty()) {
         System.out.print("\033[H\033[2J");
@@ -69,6 +73,7 @@ static void selectAProjectOption(Scanner scanner, Main app){
     }
 }
 
+// Abdellah El Ghazzaz & Alexander Van Steenwijk
 static void joinProjectOption(Scanner scanner, Main app){
     if (app.ListOfProjects.isEmpty()) {
         System.out.print("\033[H\033[2J");
@@ -89,6 +94,7 @@ static void joinProjectOption(Scanner scanner, Main app){
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 // No project leader project menu options
 static void noProjectLeaderCreateNewActivityOption(Scanner scanner, Project project){
     System.out.println("Enter activity name");
@@ -119,6 +125,7 @@ static void noProjectLeaderCreateNewActivityOption(Scanner scanner, Project proj
     
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static void noProjectLeaderRegisterActivityTimeOption(Scanner scanner, Main app, Project project){
     System.out.println("Enter the activity name");
     String activityName = scanner.nextLine();
@@ -147,6 +154,7 @@ static void noProjectLeaderRegisterActivityTimeOption(Scanner scanner, Main app,
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static void noProjectLeaderRemoveRegisteredActivityTimeOption(Scanner scanner, Main app, Project project) {
     System.out.println("Enter activity name");
     String activityName = scanner.nextLine();
@@ -176,6 +184,7 @@ static void noProjectLeaderRemoveRegisteredActivityTimeOption(Scanner scanner, M
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static void noProjectLeaderRegisterFinishedActivityOption(Scanner scanner, Project project){
     System.out.println("Enter the activity name");
     String activityName = scanner.nextLine();
@@ -190,6 +199,7 @@ static void noProjectLeaderRegisterFinishedActivityOption(Scanner scanner, Proje
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static Boolean noProjectLeaderSelectAProjectLeaderOption(Scanner scanner, Main app, Project project, Boolean projectHasLeader){
     System.out.println("Enter the initials of the new project leader");
     String userInitials = scanner.nextLine();
@@ -204,6 +214,7 @@ static Boolean noProjectLeaderSelectAProjectLeaderOption(Scanner scanner, Main a
     return projectHasLeader;
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static Project noProjectLeaderEditProjectOption(Scanner scanner, Main app, Project project){
     System.out.println("Enter the new name for the project");
     String newName = scanner.nextLine();
@@ -219,6 +230,7 @@ static Project noProjectLeaderEditProjectOption(Scanner scanner, Main app, Proje
     return project;
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static Boolean noProjectLeaderDeleteProjectOption(Scanner scanner, Main app, Project project, Boolean projectMenu){
     System.out.println("Deleting the project is an irreversible action");
     System.out.println("Enter Y if you wish to delete");
@@ -237,6 +249,7 @@ static Boolean noProjectLeaderDeleteProjectOption(Scanner scanner, Main app, Pro
     return projectMenu;
 }
 
+// Abdellah El Ghazzaz & Alexander Van Steenwijk
 static void assignUserToProjectOption(Scanner scanner, Main app, Project project){
     System.out.println("Enter initials of user to assign to this project");
     String initials = scanner.nextLine();
@@ -250,6 +263,7 @@ static void assignUserToProjectOption(Scanner scanner, Main app, Project project
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen & Alexander Van Steenwijk
 // no project leader project menu
 static Boolean[] noProjectLeaderProjectMenu(Scanner scanner, Main app, Project project, Boolean projectMenu, Boolean projectHasLeader){
     System.out.println("This project currently does not have a project leader");
@@ -310,7 +324,7 @@ static Boolean[] noProjectLeaderProjectMenu(Scanner scanner, Main app, Project p
     return projectBooleans;
 }
 
-
+// Abdellah El Ghazzaz & Ruth Andersen
 // Project leader project menu options
 static void projectLeaderRemoveRegisteredTimeOption(Scanner scanner, Main app, Project project){
     System.out.println("Enter activity name");
@@ -346,6 +360,7 @@ static void projectLeaderRemoveRegisteredTimeOption(Scanner scanner, Main app, P
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static void projectLeaderAssignUserToAnActivityOption(Scanner scanner, Project project, String pmOption){
     System.out.println("Enter activity name");
     String activityName = scanner.nextLine();
@@ -397,6 +412,7 @@ static void projectLeaderAssignUserToAnActivityOption(Scanner scanner, Project p
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static void projectLeaderCreateNewActivityOption(Scanner scanner, Project project, String pmOption){
     System.out.println("Enter activity name");
     String activityName = scanner.nextLine();
@@ -427,6 +443,7 @@ static void projectLeaderCreateNewActivityOption(Scanner scanner, Project projec
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static void projectLeaderRegisterFinishedActivityOption(Scanner scanner, Project project, String pmOption){
     System.out.println("Enter the activity name");
     String activityName = scanner.nextLine();
@@ -446,6 +463,7 @@ static void projectLeaderRegisterFinishedActivityOption(Scanner scanner, Project
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static Boolean projectLeaderSelectANewProjectLeaderOption(Scanner scanner, Main app, Project project, String pmOption, Boolean projectHasLeader){
         System.out.println("Enter the initials of the new project leader");
         String userInitials = scanner.nextLine();
@@ -460,6 +478,7 @@ static Boolean projectLeaderSelectANewProjectLeaderOption(Scanner scanner, Main 
     return projectHasLeader;
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static Project projectLeaderEditProjectOption(Scanner scanner, Main app, Project project, String pmOption){
     System.out.println("Enter the new name for the project");
     String newName = scanner.nextLine();
@@ -475,6 +494,7 @@ static Project projectLeaderEditProjectOption(Scanner scanner, Main app, Project
     return project;
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static Boolean projectLeaderDeleteProjectOption(Scanner scanner, Main app, Project project, String pmOption, Boolean projectMenu){
     System.out.println("Deleting the project is an irreversible action");
     System.out.println("Enter Y if you wish to delete");
@@ -493,6 +513,7 @@ static Boolean projectLeaderDeleteProjectOption(Scanner scanner, Main app, Proje
     return projectMenu;
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static void projectLeaderGetReportOption(Main app, Project project, String pmOption){
     Report report;
     try {
@@ -514,6 +535,7 @@ static void projectLeaderGetReportOption(Main app, Project project, String pmOpt
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen & Alexander Van Steenwijk
 // Project leader project menu
 static Boolean[] projectLeaderProjectMenu(Scanner scanner, Main app, Project project, Boolean projectMenu, Boolean projectHasLeader){
     System.out.println(project.getProjectLeader().getName() + " is the current project leader");
@@ -586,6 +608,7 @@ static Boolean[] projectLeaderProjectMenu(Scanner scanner, Main app, Project pro
     return projectBooleans;
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen & Alexander Van Steenwijk
 static Boolean[] projectMemberProjectMenu(Scanner scanner, Main app, Project project, Boolean projectMenu, Boolean projectHasLeader){
     System.out.println("Project leader: " + project.getProjectLeader().getName());
     System.out.println("Choose your next action:");
@@ -615,6 +638,7 @@ static Boolean[] projectMemberProjectMenu(Scanner scanner, Main app, Project pro
     return projectBooleans;
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen & Alexander Van Steenwijk
 // Project menu
 static void showProjectMenu(Scanner scanner, Main app, Project project){
     boolean projectMenu = true;
@@ -656,6 +680,7 @@ static void showProjectMenu(Scanner scanner, Main app, Project project){
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static void registerVacationDaysOption(Scanner scanner, Main app){
     try {
         System.out.println("Enter vacation day");
@@ -673,6 +698,7 @@ static void registerVacationDaysOption(Scanner scanner, Main app){
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static void projectLeaderRegisterTimeOption(Scanner scanner, Project project, Main app){
     System.out.println("Enter the activity name");
     String activityName = scanner.nextLine();
@@ -709,6 +735,7 @@ static void projectLeaderRegisterTimeOption(Scanner scanner, Project project, Ma
     }        
 }
 
+// Ruth Andersen
 static void showVacationDaysOption(Main app){
     try {
         System.out.println(app.currentUser.toStringVacationDays());
@@ -717,6 +744,7 @@ static void showVacationDaysOption(Main app){
     }
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 static void terminalInterface(){
     Scanner scanner = new Scanner(System.in);
     Main app = new Main();
@@ -775,10 +803,11 @@ static void terminalInterface(){
     scanner.close();
 }
 
+// Abdellah El Ghazzaz & Ruth Andersen
 public static void main(String[] args) {
     terminalInterface();
 }
-
+    // Abdellah El Ghazzaz & Ruth Andersen
     public Main(){
         // Users must be made before, as there should not be a function to add a user.
         String[] ListOfInitials = {"HUBA", "ANDA", "ANNA"};
@@ -788,10 +817,12 @@ public static void main(String[] args) {
         }
     }
 
+    // Ruth Andersen
     public Boolean CheckUserLoggedIn(){
         return UserLoggedInFlag;
     }
 
+    // Abdellah El Ghazzaz & Ruth Andersen
     public void loginUser(String initials) throws OperationNotAllowed {
         String normalizedInitials = normalizeName(initials);
         if (searchUser(normalizedInitials)){
@@ -802,6 +833,7 @@ public static void main(String[] args) {
         }
     }
 
+    // Abdellah El Ghazzaz & Ruth Andersen & Alexander Van Steenwijk
     // Check if user exists in preexisting list of users
     public Boolean searchUser(String UserInitials){
         String normalizedInitials = normalizeName(UserInitials);
@@ -818,6 +850,7 @@ public static void main(String[] args) {
         return false;
     }
 
+    // Abdellah El Ghazzaz & Ruth Andersen & Alexander Van Steenwijk
     // Get User as object, search by initials
     private User getUser(String UserInitials){
         String normalizedInitials = normalizeName(UserInitials);
@@ -835,7 +868,7 @@ public static void main(String[] args) {
     }
 
 
-    
+    // Abdellah El Ghazzaz & Ruth Andersen & Alexander Van Steenwijk
     public void NewProject(String projectname) throws OperationNotAllowed{
         String normalizedProjectName = normalizeName(projectname);
         if (normalizedProjectName == null) {
@@ -850,6 +883,7 @@ public static void main(String[] args) {
         }
     }
 
+    // Abdellah El Ghazzaz & Ruth Andersen & Alexander Van Steenwijk
     public Project getProject(String projectname) {
         String normalizedProjectName = normalizeName(projectname);
         if (normalizedProjectName == null) {
@@ -865,6 +899,7 @@ public static void main(String[] args) {
         return null;
     }
 
+    // Abdellah El Ghazzaz & Ruth Andersen & Alexander Van Steenwijk
     public void assignUserToProject(String projectname, String userInitials) throws OperationNotAllowed {
         Project project = this.getProject(projectname);
         if (project == null) {
@@ -883,6 +918,7 @@ public static void main(String[] args) {
         project.assignUser(user);
     }
 
+    // Ruth Andersen & Alexander Van Steenwijk
     public Boolean checkProjectLeader(String projectname, String username) throws OperationNotAllowed {
         Project project = this.getProject(projectname);
         if (project == null) {
@@ -906,6 +942,7 @@ public static void main(String[] args) {
         return false;
     }
 
+    // Alexander Van Steenwijk & Ruth Andersen
     public void deleteProject(String projectname) throws OperationNotAllowed {
         if(!this.searchProject(projectname)){                               // 1
             throw new OperationNotAllowed("Project does not exist");                                                        // 2
@@ -915,11 +952,12 @@ public static void main(String[] args) {
         isCurrentUserProjectLeader(projectname)){                                                                   // 3
             Project project = this.getProject(projectname);                                                  // 4
             this.ListOfProjects.remove(project);                                                      // 5
-        } else if (!isCurrentUserProjectLeader(projectname)){                                                               // 6
+        } else if (!isCurrentUserProjectLeader(projectname)){                                                                   // 6
             throw new OperationNotAllowed("Employee is not the project leader");                                               // 7
         }
     }
 
+    // Abdellah El Ghazzaz & Ruth Andersen & Alexander Van Steenwijk
     public Boolean searchProject(String projectname) {
         String normalizedProjectName = normalizeName(projectname);
         if (normalizedProjectName == null) {
@@ -936,6 +974,7 @@ public static void main(String[] args) {
         return false;
     }
 
+    // Abdellah El Ghazzaz & Ruth Andersen & Alexander Van Steenwijk
     public void editProjectName(String oldName, String newName) throws OperationNotAllowed {
         String normalizedOldName = normalizeName(oldName);
         String normalizedNewName = normalizeName(newName);
@@ -969,6 +1008,7 @@ public static void main(String[] args) {
         }
     }
 
+    // Ruth Andersen
     public Boolean projectHasProjectLeader(String projectname) throws OperationNotAllowed {
         Project project = this.getProject(projectname);
         if (project == null){
@@ -981,6 +1021,7 @@ public static void main(String[] args) {
         return false;
     }
 
+    // Alexander Van Steenwijk & Ruth Andersen
     public void setProjectLeader(String projectname, String newProjectLeaderName) throws OperationNotAllowed{
         Project project = this.getProject(projectname);
         if (project == null) {
@@ -1005,6 +1046,7 @@ public static void main(String[] args) {
         }
     }
 
+    // Alexander Van Steenwijk
     public void editProjectLeader(String projectname, String newProjectLeaderName) throws OperationNotAllowed {
         Project project = this.getProject(projectname);
         if (project == null) {
@@ -1027,6 +1069,7 @@ public static void main(String[] args) {
         project.setProjectLeader(chosenUser);
     }
 
+    // Alexander Van Steenwijk & Ruth Andersen
     public void removeProjectLeader(String projectname) throws OperationNotAllowed {
         Project project = this.getProject(projectname);
         if (project == null) {
@@ -1047,10 +1090,12 @@ public static void main(String[] args) {
         }
     }
     
+    // Ruth Andersen
     public String getCurrentUserName(){
         return this.currentUser.getName();
     }
 
+    // Ruth Andersen & Alexander Van Steenwijk
     public String getProjectLeaderName(String projectname) throws OperationNotAllowed {
         Project project = this.getProject(projectname);
         if(project != null && this.projectHasProjectLeader(projectname)){
@@ -1061,10 +1106,12 @@ public static void main(String[] args) {
         }
     }
 
+    // Ruth Andersen & Alexander Van Steenwijk
     private boolean isCurrentUserProjectLeader(String projectname) throws OperationNotAllowed {
         return this.currentUser != null && this.checkProjectLeader(projectname, this.currentUser.getName());
     }
 
+    // Alexander Van Steenwijk
     private static int readInt(Scanner scanner) throws OperationNotAllowed {
         String input = scanner.nextLine().trim();
         try {
@@ -1074,6 +1121,7 @@ public static void main(String[] args) {
         }
     }
 
+    // Alexander Van Steenwijk
     private static float readFloat(Scanner scanner) throws OperationNotAllowed {
         String input = scanner.nextLine().trim();
         try {
@@ -1087,6 +1135,7 @@ public static void main(String[] args) {
         }
     }
 
+    // Alexander Van Steenwijk
     private static String normalizeName(String name) {
         if (name == null) {
             return null;
