@@ -1,4 +1,5 @@
 package steps;
+// Ruth Andersen
 
 public class EmployeeInfoHolder {
     private String name = "";

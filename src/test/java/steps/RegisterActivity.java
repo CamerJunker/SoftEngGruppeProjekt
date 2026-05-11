@@ -1,3 +1,4 @@
+// Enya Lin
 package steps;
 
 import io.cucumber.java.en.Given;
@@ -37,17 +38,6 @@ public class RegisterActivity {
         this.employeeInfoHolder = employeeInfoHolder;
         this.activityInfoHolder = activityInfoHolder;
     }
-
-    // @Given("the project exists")
-    // public void the_project_exists() {
-    //     try {
-    //         this.app.NewProject("TestProject");
-    //         this.projectInfoHolder.setProjectName("TestProject");
-    //     } catch (OperationNotAllowed e) {
-    //         // Project already exists, that's fine
-    //     }
-    // }
-
     
     @Given("the project {string} exists in the list of projects")
     public void theProjectExistsInTheListOfProjects(String string) {

@@ -2,7 +2,8 @@ package projectmanagement;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-
+// Mob driven, where Alexander van Steenwijk wrote the code
+// Edited by Abdellah El Ghazzaz
 public class Date {
     public int day;
     public int month;
@@ -72,7 +73,7 @@ public class Date {
     private LocalDate toLocalDate() {
         return LocalDate.of(year, month, day);
     }
-
+    // Ruth Andersen
     public String toString(){
         String dayString = "";
         String monthString = "";
