@@ -17,6 +17,7 @@ static String showMainMenu(Scanner scanner){
     System.out.println("3: Select a project");
     System.out.println("4: Register vacation days");
     System.out.println("5: Show vacation days");
+    System.out.println("6: Join project");
 
     String projectOptions = scanner.nextLine();
     System.out.print("\033[H\033[2J");
@@ -65,6 +66,26 @@ static void selectAProjectOption(Scanner scanner, Main app){
         } else {
             System.out.println("Project does not exist");
         }
+    }
+}
+
+static void joinProjectOption(Scanner scanner, Main app){
+    if (app.ListOfProjects.isEmpty()) {
+        System.out.print("\033[H\033[2J");
+        System.out.println("There are no active projects");
+        return;
+    }
+
+    System.out.println("Enter the name of the project you want to join");
+    String projectName = scanner.nextLine();
+    System.out.print("\033[H\033[2J");
+
+    try {
+        app.assignUserToProject(projectName, app.currentUser.getName());
+        Project project = app.getProject(projectName);
+        System.out.println(app.currentUser.getName() + " has been assigned to " + project.getName());
+    } catch (OperationNotAllowed e) {
+        System.out.println(e.getMessage());
     }
 }
 
@@ -216,6 +237,19 @@ static Boolean noProjectLeaderDeleteProjectOption(Scanner scanner, Main app, Pro
     return projectMenu;
 }
 
+static void assignUserToProjectOption(Scanner scanner, Main app, Project project){
+    System.out.println("Enter initials of user to assign to this project");
+    String initials = scanner.nextLine();
+    System.out.print("\033[H\033[2J");
+
+    try {
+        app.assignUserToProject(project.getName(), initials);
+        System.out.println(initials + " has been assigned to " + project.getName());
+    } catch (OperationNotAllowed e) {
+        System.out.println(e.getMessage());
+    }
+}
+
 // no project leader project menu
 static Boolean[] noProjectLeaderProjectMenu(Scanner scanner, Main app, Project project, Boolean projectMenu, Boolean projectHasLeader){
     System.out.println("This project currently does not have a project leader");
@@ -227,6 +261,7 @@ static Boolean[] noProjectLeaderProjectMenu(Scanner scanner, Main app, Project p
     System.out.println("5: Select a project leader");
     System.out.println("6: Edit project");
     System.out.println("7: Delete project");
+    System.out.println("8: Assign user to project");
     System.out.println("0: Go back");
     String pmOptions = scanner.nextLine();
     System.out.print("\033[H\033[2J");
@@ -259,6 +294,10 @@ static Boolean[] noProjectLeaderProjectMenu(Scanner scanner, Main app, Project p
 
         // no project leader delete project option
         projectMenu = noProjectLeaderDeleteProjectOption(scanner, app, project, projectMenu);
+
+    } else if (pmOptions.equals("8")) {
+        // no project leader assign user to project option
+        assignUserToProjectOption(scanner, app, project);
         
     } else if (pmOptions.equals("0")) {
         projectMenu = false;
@@ -488,6 +527,7 @@ static Boolean[] projectLeaderProjectMenu(Scanner scanner, Main app, Project pro
     System.out.println("7: Edit project");
     System.out.println("8: Delete project");
     System.out.println("9: Get report");
+    System.out.println("10: Assign user to project");
     System.out.println("0: Main Menu");
 
     String pmOption = scanner.nextLine();
@@ -530,6 +570,39 @@ static Boolean[] projectLeaderProjectMenu(Scanner scanner, Main app, Project pro
             // project leader get report option
             projectLeaderGetReportOption(app, project, pmOption);
             break;
+        } case "10": {
+            // project leader assign user to project option
+            assignUserToProjectOption(scanner, app, project);
+            break;
+        } case "0": {
+            projectMenu = false;
+            break;
+        } default: {
+            System.out.println(pmOption + " does not exist as an option");
+            break;
+        }
+    }
+    Boolean[] projectBooleans = {projectHasLeader, projectMenu};
+    return projectBooleans;
+}
+
+static Boolean[] projectMemberProjectMenu(Scanner scanner, Main app, Project project, Boolean projectMenu, Boolean projectHasLeader){
+    System.out.println("Project leader: " + project.getProjectLeader().getName());
+    System.out.println("Choose your next action:");
+    System.out.println("1: Register activity time");
+    System.out.println("2: Remove registered activity time");
+    System.out.println("0: Main Menu");
+
+    String pmOption = scanner.nextLine();
+    System.out.print("\033[H\033[2J");
+
+    switch(pmOption){
+        case "1": {
+            noProjectLeaderRegisterActivityTimeOption(scanner, app, project);
+            break;
+        } case "2": {
+            noProjectLeaderRemoveRegisteredActivityTimeOption(scanner, app, project);
+            break;
         } case "0": {
             projectMenu = false;
             break;
@@ -563,10 +636,22 @@ static void showProjectMenu(Scanner scanner, Main app, Project project){
             projectMenu = projectBooleans[1];
 
         } else {
-            // Project leader project menu shows (if user is project leader)
-            Boolean[] projectBooleans = projectLeaderProjectMenu(scanner, app, project, projectMenu, projectHasLeader);
-            projectHasLeader = projectBooleans[0];
-            projectMenu = projectBooleans[1];
+            try {
+                if (app.isCurrentUserProjectLeader(project.getName())) {
+                    // Project leader project menu shows only if current user is project leader
+                    Boolean[] projectBooleans = projectLeaderProjectMenu(scanner, app, project, projectMenu, projectHasLeader);
+                    projectHasLeader = projectBooleans[0];
+                    projectMenu = projectBooleans[1];
+                } else {
+                    // Regular project menu shows when another employee is project leader
+                    Boolean[] projectBooleans = projectMemberProjectMenu(scanner, app, project, projectMenu, projectHasLeader);
+                    projectHasLeader = projectBooleans[0];
+                    projectMenu = projectBooleans[1];
+                }
+            } catch (OperationNotAllowed e) {
+                System.out.println(e.getMessage());
+                break;
+            }
         }
     }
 }
@@ -679,6 +764,9 @@ static void terminalInterface(){
             }else if(projectOptions.equals("5")){
                 // Show vacation days option
                 showVacationDaysOption(app);
+            } else if(projectOptions.equals("6")){
+                // Join project option
+                joinProjectOption(scanner, app);
             } else {
                 System.out.println(projectOptions + " does not exist as an option");
             }
@@ -775,6 +863,24 @@ public static void main(String[] args) {
             }
         }
         return null;
+    }
+
+    public void assignUserToProject(String projectname, String userInitials) throws OperationNotAllowed {
+        Project project = this.getProject(projectname);
+        if (project == null) {
+            throw new OperationNotAllowed("Project does not exist");
+        }
+
+        User user = this.getUser(userInitials);
+        if (user == null) {
+            throw new OperationNotAllowed("Employee does not exist");
+        }
+
+        if (project.findMemberByUser(user) != null) {
+            throw new OperationNotAllowed("User is already registered on this project");
+        }
+
+        project.assignUser(user);
     }
 
     public Boolean checkProjectLeader(String projectname, String username) throws OperationNotAllowed {

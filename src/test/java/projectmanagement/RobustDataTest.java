@@ -6,7 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.time.DateTimeException;
+import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 
@@ -77,5 +82,57 @@ public class RobustDataTest {
         project.assignUser(new User("huba"));
 
         assertEquals(1, project.getRegisteredMembers().size());
+    }
+
+    @Test
+    public void mainAssignsExistingUserToExistingProject() throws OperationNotAllowed {
+        Main app = new Main();
+
+        app.NewProject("Project1");
+        app.assignUserToProject("Project1", "huba");
+
+        Project project = app.getProject("Project1");
+        assertEquals(1, project.getRegisteredMembers().size());
+        assertEquals("HUBA", project.getRegisteredMembers().get(0).getUser().getName());
+    }
+
+    @Test
+    public void mainRejectsDuplicateProjectMemberAssignment() throws OperationNotAllowed {
+        Main app = new Main();
+
+        app.NewProject("Project1");
+        app.assignUserToProject("Project1", "HUBA");
+
+        OperationNotAllowed exception = assertThrows(OperationNotAllowed.class,
+                () -> app.assignUserToProject("Project1", "HUBA"));
+
+        assertEquals("User is already registered on this project", exception.getMessage());
+    }
+
+    @Test
+    public void nonProjectLeaderDoesNotSeeProjectLeaderMenu() throws OperationNotAllowed {
+        Main app = new Main();
+        app.loginUser("HUBA");
+        app.NewProject("Project1");
+        app.setProjectLeader("Project1", "ANNA");
+        Project project = app.getProject("Project1");
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        try {
+            System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
+            Scanner scanner = new Scanner(new ByteArrayInputStream("0\n".getBytes(StandardCharsets.UTF_8)));
+
+            Main.showProjectMenu(scanner, app, project);
+        } finally {
+            System.setOut(originalOut);
+        }
+
+        String menuOutput = output.toString(StandardCharsets.UTF_8);
+        assertTrue(menuOutput.contains("Project leader: ANNA"));
+        assertTrue(menuOutput.contains("1: Register activity time"));
+        assertFalse(menuOutput.contains("Assign user to an activity"));
+        assertFalse(menuOutput.contains("10: Assign user to project"));
+        assertFalse(menuOutput.contains("Get report"));
     }
 }
